@@ -29,6 +29,12 @@ gulp.task('build-html', function () {
     .pipe(gulp.dest(paths.output));
 });
 
+gulp.task('deploy-aurelia', function() {
+  //console.log(fs);//fs.move("lib/aurelia.js", "dist/aurelia.js");
+  gulp.src('./lib/aurelia.js')
+  .pipe(gulp.dest('./dist'));
+});
+
 // this task calls the clean task (located
 // in ./clean.js), then runs the build-system
 // and build-html tasks in parallel
@@ -36,7 +42,8 @@ gulp.task('build-html', function () {
 gulp.task('build', function(callback) {
   return runSequence(
     'clean',
-    ['build-system', 'build-html'],
+    ['build-system', 'build-html', 'deploy-aurelia'],
+    'bundle-app',
     callback
   );
 });
