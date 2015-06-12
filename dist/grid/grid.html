@@ -1,0 +1,29 @@
+<template>
+    <div>
+        <template replaceable part="columns">
+            <p>template</p>
+        </template>
+    </div>
+    <!-- <loadable loading.bind="loading"> -->
+    <table class="table table-hover table-striped selectable" show.bind="!showNoRowsMessage || (showNoRowsMessage && data.length > 0)">
+        <tbody ref="tbody">
+            <tr>
+                <th repeat.for="$column of columns">
+                    <a if.bind="!$column.nosort" click.trigger="$parent.applySort($column)">${ $column.heading }</a>
+                    <span if.bind="$column.nosort">${ $column.heading }</span>
+                    <img if.bind="$column.sort === 'desc'" src="img/bullet_arrow_down.png" />
+                    <img if.bind="$column.sort === 'asc'" src="img/bullet_arrow_up.png" />
+                </th>
+            </tr>
+            <tr repeat.for="$item of data" click.delegate="$parent.select($item)" class="${ $item === $parent.selectedItem ? 'info' : '' }">
+                <template replaceable part="columns">No template</template>
+            </tr>
+        </tbody>
+    </table>
+    <div class="text-center">
+        <!-- <pager num-to-show.bind="10" pager.ref="pager" on-page-changed.call="pageChanged($event)"></pager> -->
+    </div>
+    <!-- </loadable> -->
+    <!-- No rows message -->
+    <div if.bind="showNoRowsMessage && data.length == 0" class="alert alert-warning">No log entries found</div>
+</template>
