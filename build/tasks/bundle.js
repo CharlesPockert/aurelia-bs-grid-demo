@@ -21,8 +21,7 @@ gulp.task('bundle', function (done) {
       'aurelia-framework',
       'aurelia-router',
 
-   //   'github:aurelia/metadata@0.5.0',
-//      'github:aurelia/task-queue@0.4.0',
+      'github:aurelia/animator-css@0.3.2',
       'github:aurelia/event-aggregator@0.5.0',
       'github:aurelia/templating@0.12.1',
       'github:aurelia/history@0.5.0',
