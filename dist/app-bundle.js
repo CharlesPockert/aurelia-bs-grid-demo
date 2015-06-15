@@ -8417,22 +8417,22 @@ System.register("app", ["github:twbs/bootstrap@3.3.4", "github:twbs/bootstrap@3.
             config.title = 'Aurelia';
             config.map([{
               route: ['', 'welcome'],
-              moduleId: './remote-data',
+              moduleId: 'remote-data',
               nav: true,
               title: 'Remote Data'
             }, {
               route: 'local',
-              moduleId: './local-data',
+              moduleId: 'local-data',
               nav: true,
               title: 'Local Data'
             }, {
               route: 'templates',
-              moduleId: './column-templates',
+              moduleId: 'column-templates',
               nav: true,
               title: 'Column Templates'
             }, {
               route: 'selection',
-              moduleId: './row-selection',
+              moduleId: 'row-selection',
               nav: true,
               title: 'Selection'
             }]);
