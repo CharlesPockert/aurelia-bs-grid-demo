@@ -13,23 +13,6 @@ System.config({
     "npm:*": "jspm_packages/npm/*.js"
   },
   "bundles": {
-    "app-bundle": [
-      "row-selection",
-      "remote-data",
-      "pager/pager",
-      "nav-bar",
-      "local-data",
-      "grid/grid-column",
-      "grid/grid",
-      "column-templates",
-      "github:components/jquery@2.1.4/jquery",
-      "github:twbs/bootstrap@3.3.4/css/bootstrap.css!github:systemjs/plugin-css@0.1.10",
-      "github:components/jquery@2.1.4",
-      "github:twbs/bootstrap@3.3.4/js/bootstrap",
-      "github:twbs/bootstrap@3.3.4",
-      "app",
-      "animation-main"
-    ],
     "aurelia": [
       "github:aurelia/logging-console@0.5.0/index",
       "github:aurelia/logging-console@0.5.0",
@@ -279,6 +262,23 @@ System.config({
       "github:aurelia/http-client@0.9.1",
       "github:aurelia/bootstrapper@0.13.1/index",
       "github:aurelia/bootstrapper@0.13.1"
+    ],
+    "app-bundle": [
+      "row-selection",
+      "remote-data",
+      "pager/pager",
+      "nav-bar",
+      "local-data",
+      "grid/grid-column",
+      "grid/grid",
+      "column-templates",
+      "github:components/jquery@2.1.4/jquery",
+      "github:twbs/bootstrap@3.3.4/css/bootstrap.css!github:systemjs/plugin-css@0.1.10",
+      "github:components/jquery@2.1.4",
+      "github:twbs/bootstrap@3.3.4/js/bootstrap",
+      "github:twbs/bootstrap@3.3.4",
+      "app",
+      "animation-main"
     ]
   }
 });
