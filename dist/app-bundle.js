@@ -1,5 +1,76 @@
 "format register";
 
+System.register("row-selection", ["github:aurelia/http-client@0.9.1", "github:aurelia/framework@0.12.0"], function(_export) {
+  'use strict';
+  var HttpClient,
+      inject,
+      RowSelection;
+  var _createClass = (function() {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ('value' in descriptor)
+          descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+    return function(Constructor, protoProps, staticProps) {
+      if (protoProps)
+        defineProperties(Constructor.prototype, protoProps);
+      if (staticProps)
+        defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  })();
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError('Cannot call a class as a function');
+    }
+  }
+  return {
+    setters: [function(_aureliaHttpClient) {
+      HttpClient = _aureliaHttpClient.HttpClient;
+    }, function(_aureliaFramework) {
+      inject = _aureliaFramework.inject;
+    }],
+    execute: function() {
+      RowSelection = (function() {
+        function RowSelection(httpClient) {
+          _classCallCheck(this, _RowSelection);
+          this.httpClient = httpClient;
+        }
+        var _RowSelection = RowSelection;
+        _createClass(_RowSelection, [{
+          key: 'getLocalData',
+          value: function getLocalData(gridOptions) {
+            var data = [];
+            var names = ['charles', 'john', 'oliver', 'fred', 'apple', 'peach', 'banana', 'pear', 'kiwi', 'dog', 'cat', 'mouse', 'turtle', 'high', 'low', 'jacks', 'aces', 'kings', 'queens'];
+            for (var i = 0; i < 1000; i++) {
+              var n = names[Math.floor(Math.random() * names.length)];
+              data.push({
+                id: i,
+                name: n
+              });
+            }
+            ;
+            return new Promise(function(resolve, reject) {
+              resolve({
+                data: data,
+                count: data.length
+              });
+            });
+          }
+        }]);
+        RowSelection = inject(HttpClient)(RowSelection) || RowSelection;
+        return RowSelection;
+      })();
+      _export('RowSelection', RowSelection);
+    }
+  };
+});
+
 System.register("remote-data", ["github:aurelia/http-client@0.9.1", "github:aurelia/framework@0.12.0"], function(_export) {
   'use strict';
   var HttpClient,
@@ -45,10 +116,15 @@ System.register("remote-data", ["github:aurelia/http-client@0.9.1", "github:aure
         _createClass(_RemoteData, [{
           key: 'getComments',
           value: function getComments(gridOptions) {
-            return this.httpClient.createRequest('http://jsonplaceholder.typicode.com/comments').asGet().send().then(function(response) {
+            var start = (gridOptions.paging.page - 1) * gridOptions.paging.size;
+            var end = start + gridOptions.paging.size;
+            return this.httpClient.createRequest('http://jsonplaceholder.typicode.com/comments').withParams({
+              _start: start,
+              _end: end
+            }).asGet().send().then(function(response) {
               return {
                 data: response.content,
-                count: response.content.length
+                count: response.headers.headers['X-Total-Count']
               };
             });
           }
@@ -292,10 +368,106 @@ System.register("nav-bar", ["github:aurelia/framework@0.12.0"], function(_export
   };
 });
 
-System.register("grid/grid", ["github:aurelia/framework@0.12.0"], function(_export) {
+System.register("local-data", ["github:aurelia/http-client@0.9.1", "github:aurelia/framework@0.12.0"], function(_export) {
+  'use strict';
+  var HttpClient,
+      inject,
+      LocalData;
+  var _createClass = (function() {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ('value' in descriptor)
+          descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+    return function(Constructor, protoProps, staticProps) {
+      if (protoProps)
+        defineProperties(Constructor.prototype, protoProps);
+      if (staticProps)
+        defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  })();
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError('Cannot call a class as a function');
+    }
+  }
+  return {
+    setters: [function(_aureliaHttpClient) {
+      HttpClient = _aureliaHttpClient.HttpClient;
+    }, function(_aureliaFramework) {
+      inject = _aureliaFramework.inject;
+    }],
+    execute: function() {
+      LocalData = (function() {
+        function LocalData(httpClient) {
+          _classCallCheck(this, _LocalData);
+          this.httpClient = httpClient;
+        }
+        var _LocalData = LocalData;
+        _createClass(_LocalData, [{
+          key: 'getLocalData',
+          value: function getLocalData(gridOptions) {
+            var data = [];
+            var names = ['charles', 'john', 'oliver', 'fred', 'apple', 'peach', 'banana', 'pear', 'kiwi', 'dog', 'cat', 'mouse', 'turtle', 'high', 'low', 'jacks', 'aces', 'kings', 'queens'];
+            for (var i = 0; i < 1000; i++) {
+              var n = names[Math.floor(Math.random() * names.length)];
+              data.push({
+                id: i,
+                name: n
+              });
+            }
+            ;
+            return new Promise(function(resolve, reject) {
+              resolve({
+                data: data,
+                count: data.length
+              });
+            });
+          }
+        }]);
+        LocalData = inject(HttpClient)(LocalData) || LocalData;
+        return LocalData;
+      })();
+      _export('LocalData', LocalData);
+    }
+  };
+});
+
+System.register("grid/grid-column", [], function(_export) {
   "use strict";
+  var GridColumn;
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+  return {
+    setters: [],
+    execute: function() {
+      GridColumn = function GridColumn(config) {
+        _classCallCheck(this, GridColumn);
+        this.field = config.field;
+        if (!this.field)
+          throw new Error("field is required");
+        this.heading = config.heading || config.field;
+        this.nosort = config.nosort || false;
+      };
+      _export("GridColumn", GridColumn);
+    }
+  };
+});
+
+System.register("grid/grid", ["github:aurelia/framework@0.12.0", "grid/grid-column"], function(_export) {
+  'use strict';
   var bindable,
       inject,
+      GridColumn,
       Grid;
   var _createDecoratedClass = (function() {
     function defineProperties(target, descriptors, initializers) {
@@ -307,15 +479,15 @@ System.register("grid/grid", ["github:aurelia/framework@0.12.0"], function(_expo
         delete descriptor.decorators;
         descriptor.enumerable = descriptor.enumerable || false;
         descriptor.configurable = true;
-        if ("value" in descriptor || descriptor.initializer)
+        if ('value' in descriptor || descriptor.initializer)
           descriptor.writable = true;
         if (decorators) {
           for (var f = 0; f < decorators.length; f++) {
             var decorator = decorators[f];
-            if (typeof decorator === "function") {
+            if (typeof decorator === 'function') {
               descriptor = decorator(target, key, descriptor) || descriptor;
             } else {
-              throw new TypeError("The decorator for method " + descriptor.key + " is of the invalid type " + typeof decorator);
+              throw new TypeError('The decorator for method ' + descriptor.key + ' is of the invalid type ' + typeof decorator);
             }
           }
           if (descriptor.initializer !== undefined) {
@@ -336,7 +508,7 @@ System.register("grid/grid", ["github:aurelia/framework@0.12.0"], function(_expo
   })();
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
+      throw new TypeError('Cannot call a class as a function');
     }
   }
   function _defineDecoratedPropertyDescriptor(target, key, descriptors) {
@@ -353,203 +525,369 @@ System.register("grid/grid", ["github:aurelia/framework@0.12.0"], function(_expo
     setters: [function(_aureliaFramework) {
       bindable = _aureliaFramework.bindable;
       inject = _aureliaFramework.inject;
+    }, function(_gridColumn) {
+      GridColumn = _gridColumn.GridColumn;
     }],
     execute: function() {
       Grid = (function() {
         var _instanceInitializers = {};
         function Grid(element) {
           _classCallCheck(this, _Grid);
-          _defineDecoratedPropertyDescriptor(this, "read", _instanceInitializers);
-          _defineDecoratedPropertyDescriptor(this, "autoGenerateColumns", _instanceInitializers);
-          _defineDecoratedPropertyDescriptor(this, "pageable", _instanceInitializers);
-          _defineDecoratedPropertyDescriptor(this, "sortable", _instanceInitializers);
-          _defineDecoratedPropertyDescriptor(this, "selectable", _instanceInitializers);
-          _defineDecoratedPropertyDescriptor(this, "selectedItem", _instanceInitializers);
-          _defineDecoratedPropertyDescriptor(this, "noRowsMessage", _instanceInitializers);
-          _defineDecoratedPropertyDescriptor(this, "serverSorting", _instanceInitializers);
-          _defineDecoratedPropertyDescriptor(this, "columnHeaders", _instanceInitializers);
-          this.data = [];
+          _defineDecoratedPropertyDescriptor(this, 'serverPaging', _instanceInitializers);
+          _defineDecoratedPropertyDescriptor(this, 'pageable', _instanceInitializers);
+          _defineDecoratedPropertyDescriptor(this, 'pageSize', _instanceInitializers);
+          _defineDecoratedPropertyDescriptor(this, 'page', _instanceInitializers);
+          _defineDecoratedPropertyDescriptor(this, 'serverSorting', _instanceInitializers);
+          _defineDecoratedPropertyDescriptor(this, 'sortable', _instanceInitializers);
           this.sorting = {};
-          this.paging = {
-            page: 1,
-            size: 10
-          };
+          this.Trogdor = true;
+          _defineDecoratedPropertyDescriptor(this, 'autoGenerateColumns', _instanceInitializers);
+          this.columnHeaders = [];
+          this.columns = [];
+          _defineDecoratedPropertyDescriptor(this, 'selectable', _instanceInitializers);
+          _defineDecoratedPropertyDescriptor(this, 'selectedItem', _instanceInitializers);
+          _defineDecoratedPropertyDescriptor(this, 'noRowsMessage', _instanceInitializers);
+          _defineDecoratedPropertyDescriptor(this, 'autoLoad', _instanceInitializers);
+          this.loading = false;
+          _defineDecoratedPropertyDescriptor(this, 'loadingMessage', _instanceInitializers);
+          _defineDecoratedPropertyDescriptor(this, 'read', _instanceInitializers);
+          _defineDecoratedPropertyDescriptor(this, 'onReadError', _instanceInitializers);
+          this.cache = [];
+          this.data = [];
           this.count = 0;
           this.element = element;
-          this.loading = false;
         }
         var _Grid = Grid;
         _createDecoratedClass(_Grid, [{
-          key: "attached",
+          key: 'attached',
           value: function attached() {
-            this.refresh();
+            if (this.autoLoad)
+              this.refresh();
           }
         }, {
-          key: "pageChanged",
-          value: function pageChanged(page) {
-            this.paging.page = page;
-            this.refresh();
-          }
-        }, {
-          key: "bind",
+          key: 'bind',
           value: function bind(executionContext) {
             var _this = this;
-            this["$parent"] = executionContext;
-            var template = this.element.querySelector("template");
-            var cols = Array.prototype.slice.call(template.content.querySelectorAll("td"));
-            var container = this.element.querySelector("div");
-            this.columns = [];
-            cols.forEach(function(c) {
-              var attrs = Array.prototype.slice.call(c.attributes);
-              var col = {
-                field: "",
-                heading: ""
-              };
+            this['$parent'] = executionContext;
+            if (this.serverPaging && !this.serverSorting)
+              this.sortable = false;
+            var columnTemplate = this.element.querySelector('template'),
+                columnElements = Array.prototype.slice.call(columnTemplate.content.querySelectorAll('td')),
+                columnContainer = this.element.querySelector('div');
+            columnElements.forEach(function(c) {
+              var attrs = Array.prototype.slice.call(c.attributes),
+                  colHash = {};
               attrs.forEach(function(a) {
-                col[a.name] = a.value;
+                return colHash[a.name] = a.value;
               });
-              if (col.nosort !== undefined || !_this.sortable)
-                col.nosort = true;
-              _this.columns.push(col);
+              var col = new GridColumn(colHash);
+              _this.addColumn(col);
             });
-            container.parentNode.removeChild(container);
+            columnContainer.parentNode.removeChild(columnContainer);
           }
         }, {
-          key: "refresh",
-          value: function refresh() {
-            var _this2 = this;
-            if (!this.read) {
-              console.error("No read method specified for grid");
+          key: 'addColumn',
+          value: function addColumn(col) {
+            if (!this.sortable)
+              col.nosort = true;
+            this.columns.push(col);
+          }
+        }, {
+          key: 'pageChanged',
+          value: function pageChanged(page) {
+            this.page = Number(page);
+            if (this.cache.length == 0)
+              this.refresh();
+            else
+              this.applyPage();
+          }
+        }, {
+          key: 'pageSizeChanged',
+          value: function pageSizeChanged() {
+            this.pageChanged(1);
+            this.updatePager();
+          }
+        }, {
+          key: 'applyPage',
+          value: function applyPage() {
+            if (!this.pageable)
               return ;
+            if (!this.serverPaging) {
+              var start = (Number(this.page) - 1) * Number(this.pageSize);
+              this.data = this.cache.slice(start, start + Number(this.pageSize));
             }
-            this.loading = true;
-            this.read({
-              sort: this.sorting,
-              page: this.paging
-            }).then(function(result) {
-              _this2.data = result.data;
-              _this2.count = result.count;
-              console.log("Retrieved " + result.data.length + " rows");
-              _this2.loading = false;
-            });
+            this.updatePager();
           }
         }, {
-          key: "noRowsMessageChanged",
-          value: function noRowsMessageChanged() {
-            this.showNoRowsMessage = this.noRowsMessage !== "";
-          }
-        }, {
-          key: "sortByProperty",
-          value: function sortByProperty(prop) {
+          key: 'sortByProperty',
+          value: function sortByProperty(prop, dir) {
             return function(a, b) {
-              if (typeof a[prop] == "number") {
-                return a[prop] - b[prop];
+              if (typeof a[prop] == 'number') {
+                return (a[prop] - b[prop]) * dir;
               } else {
-                return a[prop] < b[prop] ? -1 : a[prop] > b[prop] ? 1 : 0;
+                return (a[prop] < b[prop] ? -1 : a[prop] > b[prop] ? 1 : 0) * dir;
               }
             };
           }
         }, {
-          key: "applySort",
-          value: function applySort(column) {
+          key: 'sortChanged',
+          value: function sortChanged(field) {
             var newSort = undefined;
-            switch (this.sorting[column.field]) {
-              case "asc":
-                newSort = "desc";
+            switch (this.sorting[field]) {
+              case 'asc':
+                newSort = 'desc';
                 break;
-              case "desc":
+              case 'desc':
+                if (!this.serverSorting)
+                  newSort = 'asc';
                 break;
               default:
-                newSort = "asc";
+                newSort = 'asc';
                 break;
             }
-            this.sorting[column.field] = newSort;
-            column.sort = newSort;
-            var dir = newSort == "asc" ? 1 : -1;
-            if (this.serverSorting)
+            this.sorting[field] = newSort;
+            this.applySort(field);
+          }
+        }, {
+          key: 'applySort',
+          value: function applySort(field) {
+            var newSort = this.sorting[field];
+            var dir = newSort == 'asc' ? 1 : -1;
+            if (this.serverSorting) {
               this.refresh();
-            else {
-              this.data.sort(function(a, b) {
-                if (typeof a[column.field] == "number") {
-                  return (a[column.field] - b[column.field]) * dir;
-                } else {
-                  return (a[column.field] < b[column.field] ? -1 : a[column.field] > b[column.field] ? 1 : 0) * dir;
-                }
-              });
+            } else {
+              this.cache.sort(this.sortByProperty(field, dir));
+              this.applyPage();
             }
           }
         }, {
-          key: "select",
-          value: function select(item) {
-            this.selectedItem = item;
-            console.log("Selected");
+          key: 'refresh',
+          value: function refresh() {
+            var _this2 = this;
+            if (!this.read)
+              throw new Error('No read method specified for grid');
+            this.loading = true;
+            this.read({
+              sorting: this.sorting,
+              paging: {
+                page: Number(this.page),
+                size: Number(this.pageSize)
+              }
+            }).then(function(result) {
+              _this2.handleResult(result);
+              _this2.loading = false;
+            }, function(result) {
+              if (_this2.onReadError)
+                _this2.onReadError(result);
+              _this2.loading = false;
+            });
           }
         }, {
-          key: "read",
-          decorators: [bindable],
-          initializer: function() {
-            return null;
-          },
-          enumerable: true
+          key: 'handleResult',
+          value: function handleResult(result) {
+            var data = result.data;
+            if (this.pageable && !this.serverPaging && !this.serverSorting) {
+              this.cache = result.data;
+              this.applyPage();
+            } else {
+              this.data = result.data;
+            }
+            this.count = result.count;
+            this.updatePager();
+          }
         }, {
-          key: "autoGenerateColumns",
-          decorators: [bindable],
-          initializer: null,
-          enumerable: true
+          key: 'updatePager',
+          value: function updatePager() {
+            this.pager.update(Number(this.page), Number(this.pageSize), Number(this.count));
+          }
         }, {
-          key: "pageable",
-          decorators: [bindable],
-          initializer: function() {
-            return true;
-          },
-          enumerable: true
+          key: 'select',
+          value: function select(item) {
+            if (this.selectable)
+              this.selectedItem = item;
+          }
         }, {
-          key: "sortable",
-          decorators: [bindable],
-          initializer: function() {
-            return true;
-          },
-          enumerable: true
+          key: 'noRowsMessageChanged',
+          value: function noRowsMessageChanged() {
+            this.showNoRowsMessage = this.noRowsMessage !== '';
+          }
         }, {
-          key: "selectable",
-          decorators: [bindable],
-          initializer: function() {
-            return true;
-          },
-          enumerable: true
-        }, {
-          key: "selectedItem",
-          decorators: [bindable],
-          initializer: function() {
-            return null;
-          },
-          enumerable: true
-        }, {
-          key: "noRowsMessage",
-          decorators: [bindable],
-          initializer: function() {
-            return "";
-          },
-          enumerable: true
-        }, {
-          key: "serverSorting",
+          key: 'serverPaging',
           decorators: [bindable],
           initializer: function() {
             return false;
           },
           enumerable: true
         }, {
-          key: "columnHeaders",
+          key: 'pageable',
           decorators: [bindable],
           initializer: function() {
-            return [];
+            return true;
+          },
+          enumerable: true
+        }, {
+          key: 'pageSize',
+          decorators: [bindable],
+          initializer: function() {
+            return 10;
+          },
+          enumerable: true
+        }, {
+          key: 'page',
+          decorators: [bindable],
+          initializer: function() {
+            return 1;
+          },
+          enumerable: true
+        }, {
+          key: 'serverSorting',
+          decorators: [bindable],
+          initializer: function() {
+            return false;
+          },
+          enumerable: true
+        }, {
+          key: 'sortable',
+          decorators: [bindable],
+          initializer: function() {
+            return true;
+          },
+          enumerable: true
+        }, {
+          key: 'autoGenerateColumns',
+          decorators: [bindable],
+          initializer: null,
+          enumerable: true
+        }, {
+          key: 'selectable',
+          decorators: [bindable],
+          initializer: function() {
+            return false;
+          },
+          enumerable: true
+        }, {
+          key: 'selectedItem',
+          decorators: [bindable],
+          initializer: function() {
+            return null;
+          },
+          enumerable: true
+        }, {
+          key: 'noRowsMessage',
+          decorators: [bindable],
+          initializer: function() {
+            return '';
+          },
+          enumerable: true
+        }, {
+          key: 'autoLoad',
+          decorators: [bindable],
+          initializer: function() {
+            return true;
+          },
+          enumerable: true
+        }, {
+          key: 'loadingMessage',
+          decorators: [bindable],
+          initializer: function() {
+            return 'Loading...';
+          },
+          enumerable: true
+        }, {
+          key: 'read',
+          decorators: [bindable],
+          initializer: function() {
+            return null;
+          },
+          enumerable: true
+        }, {
+          key: 'onReadError',
+          decorators: [bindable],
+          initializer: function() {
+            return null;
           },
           enumerable: true
         }], null, _instanceInitializers);
         Grid = inject(Element)(Grid) || Grid;
         return Grid;
       })();
-      _export("Grid", Grid);
+      _export('Grid', Grid);
+    }
+  };
+});
+
+System.register("column-templates", ["github:aurelia/http-client@0.9.1", "github:aurelia/framework@0.12.0"], function(_export) {
+  'use strict';
+  var HttpClient,
+      inject,
+      ColumnTemplates;
+  var _createClass = (function() {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ('value' in descriptor)
+          descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+    return function(Constructor, protoProps, staticProps) {
+      if (protoProps)
+        defineProperties(Constructor.prototype, protoProps);
+      if (staticProps)
+        defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  })();
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError('Cannot call a class as a function');
+    }
+  }
+  return {
+    setters: [function(_aureliaHttpClient) {
+      HttpClient = _aureliaHttpClient.HttpClient;
+    }, function(_aureliaFramework) {
+      inject = _aureliaFramework.inject;
+    }],
+    execute: function() {
+      ColumnTemplates = (function() {
+        function ColumnTemplates(httpClient) {
+          _classCallCheck(this, _ColumnTemplates);
+          this.httpClient = httpClient;
+        }
+        var _ColumnTemplates = ColumnTemplates;
+        _createClass(_ColumnTemplates, [{
+          key: 'getLocalData',
+          value: function getLocalData(gridOptions) {
+            var data = [];
+            var names = ['charles', 'john', 'oliver', 'fred', 'apple', 'peach', 'banana', 'pear', 'kiwi', 'dog', 'cat', 'mouse', 'turtle', 'high', 'low', 'jacks', 'aces', 'kings', 'queens'];
+            for (var i = 0; i < 1000; i++) {
+              var n = names[Math.floor(Math.random() * names.length)];
+              data.push({
+                id: i,
+                name: n
+              });
+            }
+            ;
+            return new Promise(function(resolve, reject) {
+              resolve({
+                data: data,
+                count: data.length
+              });
+            });
+          }
+        }, {
+          key: 'itemClicked',
+          value: function itemClicked(item) {
+            alert('You clicked on ' + item.name);
+          }
+        }]);
+        ColumnTemplates = inject(HttpClient)(ColumnTemplates) || ColumnTemplates;
+        return ColumnTemplates;
+      })();
+      _export('ColumnTemplates', ColumnTemplates);
     }
   };
 });
@@ -8082,6 +8420,21 @@ System.register("app", ["github:twbs/bootstrap@3.3.4", "github:twbs/bootstrap@3.
               moduleId: './remote-data',
               nav: true,
               title: 'Remote Data'
+            }, {
+              route: 'local',
+              moduleId: './local-data',
+              nav: true,
+              title: 'Local Data'
+            }, {
+              route: 'templates',
+              moduleId: './column-templates',
+              nav: true,
+              title: 'Column Templates'
+            }, {
+              route: 'selection',
+              moduleId: './row-selection',
+              nav: true,
+              title: 'Selection'
             }]);
             this.router = router;
           }
