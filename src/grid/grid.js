@@ -1,154 +1,243 @@
 import {bindable, inject } from 'aurelia-framework';
+import {GridColumn} from './grid-column';
 
 @inject(Element)
 export class Grid {
 
-	@bindable read = null;
-	@bindable autoGenerateColumns;	
-	@bindable pageable = true;
-	@bindable sortable = true;
-	@bindable selectable = true;
-	@bindable selectedItem = null;
-	@bindable noRowsMessage = "";
-	@bindable serverSorting = false;
-	@bindable columnHeaders = [];
+	/* == Options == */
 
-	data = [];
+	// Pagination
+	@bindable serverPaging = false;
+	@bindable pageable = true;
+	@bindable pageSize = 10;
+	@bindable page = 1;
+
+	// Sortination
+	@bindable serverSorting = false;
+	@bindable sortable = true;
 	sorting = {};
-	paging = { page:1, size: 10 };
+
+	// Burnination?
+	Trogdor = true;
+
+	// Column defs
+	@bindable autoGenerateColumns;	
+	columnHeaders = [];
+	columns = [];
+	
+	// Selection
+	@bindable selectable = false;
+	@bindable selectedItem = null;
+
+	// Misc
+	@bindable noRowsMessage = "";
+
+	// Data ....
+	@bindable autoLoad = true;
+	loading = false;
+	@bindable loadingMessage = "Loading...";
+
+	// Read
+	@bindable read = null;
+	@bindable onReadError = null;
+
+	// Tracking
+	cache = [];
+	data = [];
 	count = 0;
 
 	constructor(element) {
 		this.element = element;
-		this.loading = false;
 	}
 
+	/* === Lifecycle === */
 	attached() {
-		// Refresh data
-	    this.refresh();
-	}
-
-	pageChanged(page) {
-		this.paging.page = page;
-		this.refresh();
+		if(this.autoLoad)
+		    this.refresh();
 	}
 
 	bind(executionContext) {
 
 		this["$parent"] = executionContext;
 
+		// Ensure the grid settings
+		// If we can page on the server and we can't server sort, we can't sort locally
+		if(this.serverPaging && !this.serverSorting)
+			this.sortable = false;
+
 		// Get the columns from the duplicate of the user columns template
-		var template = this.element.querySelector("template"); 
-		var cols = Array.prototype.slice.call(template.content.querySelectorAll("td"));
-		var container = this.element.querySelector("div");
+		var columnTemplate = this.element.querySelector("template"), 
+		columnElements = Array.prototype.slice.call(columnTemplate.content.querySelectorAll("td")),
+		columnContainer = this.element.querySelector("div");
 
 		// Iterate the tds and build a column list based on attributes
-		this.columns = [];
+		columnElements.forEach(c => {
 
-		cols.forEach(c => {
+			var attrs = Array.prototype.slice.call(c.attributes), colHash = {};
+			attrs.forEach(a => colHash[a.name] = a.value);
 
-			var attrs = Array.prototype.slice.call(c.attributes);
+			var col = new GridColumn(colHash);
 
-			// TODO: Make this a column class so user can programatically add columns
-			var col = {
-				field: "",
-				heading: ""
-			};
-
-			attrs.forEach(a => {
-				col[a.name] = a.value;
-			});
-
-			if(col.nosort !== undefined || !this.sortable)
-				col.nosort = true;
-
-			this.columns.push(col);
+			this.addColumn(col);
 		});
 
-		container.parentNode.removeChild(container);
+		columnContainer.parentNode.removeChild(columnContainer);
+
+		
 	}
 
-	refresh() {
+	addColumn(col) {
 
-		if(!this.read) {
-			console.error("No read method specified for grid");
-			return;
-		}
+		// No-sort if grid is not sortable
+		if(!this.sortable)
+			col.nosort = true;
 
-		// TODO: Implement progress indicator
-		this.loading = true;
-
-		// Try to read from the data adapter
-		this.read({ 
-			sort: this.sorting, 
-			page: this.paging
-		})
-		.then((result) => {
-			// Data should be in the result so grab it and assign it to the data property
-			this.data = result.data;
-			this.count = result.count;
-
-			// Update the pager - maybe the grid options should contain an update callback instead of reffing the
-			// pager into the current VM?
-			// this.pager.update(this.paging.page, this.paging.size, this.count);
-			console.log("Retrieved " + result.data.length + " rows");
-			this.loading = false;
-		});
-
+		this.columns.push(col);
 	}
 
-	noRowsMessageChanged() {
-		this.showNoRowsMessage = this.noRowsMessage !== "";
+	/* === Paging === */
+	pageChanged(page) {
+
+		this.page = Number(page);
+
+		if(this.cache.length == 0)
+			this.refresh();
+		else		
+			this.applyPage();
 	}
 
-	sortByProperty(prop) {
+	pageSizeChanged() {
+		this.pageChanged(1);
+		this.updatePager();
+	}
+
+	applyPage() {
+		if(!this.pageable) return;
+		
+		if(!this.serverPaging) {
+			var start = (Number(this.page) - 1) * Number(this.pageSize);
+			this.data = this.cache.slice(start, start + Number(this.pageSize));
+		} 
+
+		this.updatePager();
+	}
+
+	/* === Sorting === */
+	sortByProperty(prop, dir) {
 	   return (a,b) => {
 	        if (typeof a[prop] == "number") {
-	            return (a[prop] - b[prop]);
+	            return (a[prop] - b[prop]) * dir;
 	        } else {
-	            return ((a[prop] < b[prop]) ? -1 : ((a[prop] > b[prop]) ? 1 : 0));
+	            return ((a[prop] < b[prop]) ? -1 : ((a[prop] > b[prop]) ? 1 : 0)) * dir;
 	        }
 	    };
 	}	
-	applySort(column) {
 
-	    // If the sort already exists
-	    var newSort = undefined;
+	sortChanged(field) {
+		// Determine new sort
+		var newSort = undefined;
 
-	    switch(this.sorting[column.field]) {
+	    switch(this.sorting[field]) {
 	    	case "asc":
 	    			newSort = "desc";
 	    		break;
 	    		case "desc":
+	    			if(!this.serverSorting)
+	    				newSort = "asc";
 	    		break;
 	    		default:
 	    			newSort = "asc";
 	    		break;
 	    }
 
-	    this.sorting[column.field] = newSort;
-	    column.sort = newSort;
+	    this.sorting[field] = newSort;
+		this.applySort(field);
+	}
 
+	applySort(field) {
+
+		var newSort = this.sorting[field];
 	    var dir = newSort == 'asc' ? 1 : -1;
 
 		// If server sort, just refresh
 		if (this.serverSorting)
+		{
 		    this.refresh();
+		}
 		else {
-		    this.data.sort((a, b) => {
-		        if (typeof a[column.field] == "number") {
-		            return ((a[column.field] - b[column.field])) * dir;
-		        } else {
-		            return (((a[column.field] < b[column.field]) ? -1 : ((a[column.field] > b[column.field]) ? 1 : 0))) * dir;
-		        }
-		    });
+			// Client side sort, first sort the cache, then page
+			this.cache.sort(this.sortByProperty(field, dir));
+		    this.applyPage();
 		}
 	}
 
-	select(item) {
-		this.selectedItem = item;
-		console.log("Selected");
+	/* === Data === */
+	refresh() {
+
+		if(!this.read)
+			throw new Error("No read method specified for grid");
+
+		// TODO: Implement progress indicator
+		this.loading = true;
+
+		// Try to read from the data adapter
+		this.read({ 
+			sorting: this.sorting, 
+			paging: { page: Number(this.page), size: Number(this.pageSize) }
+		})
+		.then((result) => {
+
+			// Data should be in the result so grab it and assign it to the data property
+			this.handleResult(result);
+
+			this.loading = false;
+		}, (result) => {
+			// Something went terribly wrong, notify the consumer
+			if(this.onReadError)
+				this.onReadError(result);
+
+			this.loading = false;
+		});
+
 	}
+
+	handleResult(result) {
+
+		// TODO: Check valid stuff was returned
+		var data = result.data;
+
+		// Is the data being paginated on the client side?
+		if(this.pageable && !this.serverPaging && !this.serverSorting) {
+			// Cache the data and slice into the array
+			this.cache = result.data;
+			this.applyPage();
+		} else {
+			this.data = result.data;
+		}
+	
+	    this.count = result.count;
+
+	    // Update the pager - maybe the grid options should contain an update callback instead of reffing the
+	    // pager into the current VM?
+	    this.updatePager();
+	}
+
+	updatePager() {
+		this.pager.update(Number(this.page), Number(this.pageSize), Number(this.count));
+	}
+
+	/* === Selection === */
+
+	select(item) {
+		if(this.selectable)
+			this.selectedItem = item;
+	}
+
+	/* === Change handlers === */
+	noRowsMessageChanged() {
+		this.showNoRowsMessage = this.noRowsMessage !== "";
+	}
+
 
 
 }

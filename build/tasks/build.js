@@ -43,6 +43,13 @@ gulp.task('build', function(callback) {
   return runSequence(
     'clean',
     ['build-system', 'build-html', 'deploy-aurelia'],
+    callback
+  );
+});
+
+gulp.task('build-prod', function(callback) {
+  return runSequence(
+    'build',
     'bundle-app',
     callback
   );

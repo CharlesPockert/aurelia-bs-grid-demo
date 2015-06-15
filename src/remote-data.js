@@ -10,16 +10,21 @@ export class RemoteData {
 
   getComments(gridOptions) {
     // Return a promise that resolves to the data
-    // The data currently must contain a data and count property
-    // TODO: Make this work on any iterable and just check length if 
-    // no count is provided
+
+    var start = (gridOptions.paging.page - 1) * gridOptions.paging.size;
+    var end = start + gridOptions.paging.size;
+
     return this.httpClient.createRequest("http://jsonplaceholder.typicode.com/comments")
+          .withParams({
+            _start: start,
+            _end: end
+          })
           .asGet()
           .send()
           .then(response => {
               return {
                 data: response.content,
-                count: response.content.length
+                count: response.headers.headers["X-Total-Count"]
               };  
           });  
   }
