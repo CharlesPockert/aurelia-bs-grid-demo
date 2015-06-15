@@ -120,3 +120,27 @@ div.au-stagger {
     opacity: 1;
   }
 }
+
+.overlay
+{
+    position: absolute;
+ 
+    left: 0;
+    top: 0;
+    min-width:100%;
+    min-height: 100%;
+    height:100%;
+    z-index: 10;
+    background: rgba(0,0,0,0.3);
+}
+
+
+.overlay-message
+{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 11;
+    font-size:50pt;
+    transform: translate(-50%, -50%);
+}
