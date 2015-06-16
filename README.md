@@ -1,94 +1,136 @@
-# aurelia-skeleton-navigation
+# aurelia-grid
 
-[![ZenHub](https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png)](https://zenhub.io)
-[![Join the chat at https://gitter.im/aurelia/discuss](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/aurelia/discuss?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+An Aurelia based data-grid control
 
-This skeleton is part of the [Aurelia](http://www.aurelia.io/) platform. It sets up a standard navigation-style app using gulp to build your ES6 code with the Babel compiler. Karma/Protractor/Jasmine testing is also configured.
+## Using the grid
 
-> To keep up to date on [Aurelia](http://www.aurelia.io/), please visit and subscribe to [the official blog](http://blog.durandal.io/). If you have questions, we invite you to [join us on Gitter](https://gitter.im/aurelia/discuss). If you would like to have deeper insight into our development process, please install the [ZenHub](https://zenhub.io) Chrome Extension and visit any of our repository's boards. You can get an overview of all Aurelia work by visiting [the framework board](https://github.com/aurelia/framework#boards).
+Import the plugin using standard plugin import syntax:
 
-## Running The App
+```javascript
+aurelia.use.plugin("path-to/grid", config => {
+});
+```
 
-To run the app, follow these steps.
-
-1. Ensure that [NodeJS](http://nodejs.org/) is installed. This provides the platform on which the build tooling runs.
-2. From the project folder, execute the following command:
-
-  ```shell
-  npm install
-  ```
-3. Ensure that [Gulp](http://gulpjs.com/) is installed. If you need to install it, use the following command:
-
-  ```shell
-  npm install -g gulp
-  ```
-4. Ensure that [jspm](http://jspm.io/) is installed. If you need to install it, use the following command:
-
-  ```shell
-  npm install -g jspm
-  ```
-  > **Note:** jspm queries GitHub to install semver packages, but GitHub has a rate limit on anonymous API requests. It is advised that you configure jspm with your GitHub credentials in order to avoid problems. You can do this by executing `jspm registry config github` and following the prompts.
-5. Install the client-side dependencies with jspm:
-
-  ```shell
-  jspm install -y
-  ```
-  >**Note:** Windows users, if you experience an error of "unknown command unzip" you can solve this problem by doing `npm install -g unzip` and then re-running `jspm install`.
-6. To run the app, execute the following command:
-
-  ```shell
-  gulp watch
-  ```
-7. Browse to [http://localhost:9000](http://localhost:9000) to see the app. You can make changes in the code found under `src` and the browser should auto-refresh itself as you save files.
-
-> Note: At present there is a bug in the HTMLImports polyfill which only occurs on IE. We have submitted a pull request to the team with the fix. In the mean time, if you want to test on IE, you can work around the issue by explicitly adding a script tag before you load system.js. The script tag should look something like this (be sure to confirm the version number):
+Then use by placing a `<grid>` custom element in your view:
 
 ```html
-<script src="jspm_packages/github/webcomponents/webcomponentsjs@0.5.2/HTMLImports.js"></script>
+<template>
+  <!-- Grid... -->
+  <grid read.call="getSomeData($event)">
+    <!-- Column template -->
+    <template replace-part="columns">
+      <td heading="ID" field="id" class="col-md-6">${ $item.id }</td>
+      <td heading="Name" field="name" class="col-md-6">${ $item.name }</td>
+    </template>
+  </grid>
+</template>
 ```
 
-## Running The Unit Tests
+You can specify the columns and their templates in-line in the markup. This gives you a view-friendly way of defining a data-grid so you can safely re-use your viewmodels.
 
-To run the unit tests, first ensure that you have followed the steps above in order to install all dependencies and successfully build the library. Once you have done that, proceed with these additional steps:
+The column templates use the new "replaceable-parts" Aurelia feature, so as you can see in the above example you need to provide a template which replaces the **"columns"** part. 
 
-1. Ensure that the [Karma](http://karma-runner.github.io/) CLI is installed. If you need to install it, use the following command:
+##Column templates
 
-  ```shell
-  npm install -g karma-cli
-  ```
-2. Install Aurelia libs for test visibility:
+The template should be a list of `<td>` elements, each of which represents a column. Each `<td>` should specify the following required attribute(s):
 
-```shell
-jspm install aurelia-framework
-jspm install aurelia-http-client
-jspm install aurelia-router
+**Required attributes**
+- field="someFieldName"
+
+The name of the data field that backs this column
+
+**Optional attributes**
+
+The column definition can also specify one or more optional attributes:
+
+- heading="Field Name"
+
+The column header. If not specified the value of `field` will be used
+
+- nosort
+
+Don't allow sorting on this column (overrides the grid sort setting)
+
+Any markup contained within the `<td>` will become the column template. This markup will be evaluated in the scope of the grid repeater and references the current row using an `$item` property
+
+This allows you to work with and template any value on the current data row:
+
 ```
-3. You can now run the tests with this command:
+<td heading="ID" field="id" class="col-md-6">Hello world I am item ${ $item.id }</td>
+```
 
-  ```shell
-  karma start
-  ```
+Additionally, since this markup is used directly in the rendered output you can add classes, expressions etc - anything that works in Aurelia should work on the column template
 
-## Running The E2E Tests
-Integration tests are performed with [Protractor](http://angular.github.io/protractor/#/).
+**Note:**
 
-1. Place your E2E-Tests into the folder ```test/e2e/src```
-2. Install the necessary webdriver
+To reference the owning viewmodel of the grid custom-element use `$parent.$parent`. Hopefully this won't be neccessary in later versions of Aurelia
 
-  ```shell
-  gulp webdriver_update
-  ```
+#Grid methods and properties
 
-3. Configure the path to the webdriver by opening the file ```protractor.conf.js``` and adjusting the ```seleniumServerJar``` property. Typically its only needed to adjust the version number.
+## Bindable properties
 
-4. Make sure your app runs and is accessible
+The grid has several bindables which allow you to configure its behaviour:
 
-  ```shell
-  gulp watch
-  ```
+- read.call="[dataFetchMethod($event)]"
+  - This should be a method which returns a promise that resolves to a grid result object. The object should provide the grid with data and a total count of rows. 
 
-5. In another console run the E2E-Tests
+```javascript
+loadData(gridArgs)
+{
+  return new Promise((resolve, reject) => resolve({
+      data: ...your data...,
+      count: ...total number of data rows (without filters)...
+    });
+  }
+}
+```
 
-  ```shell
-  gulp e2e
-  ```
+The `$event` parameter is used for paging and sorting (details below)
+
+- on-read-error.call="[someFunction($event)]"
+  - Called when the promise in the read method is rejected. Receives the result of the rejection into the `$event` parameter 
+
+- pageable="[true/false]"
+  - Enable/disable pagination for this grid
+
+- server-paging="[false/true]"
+  - Turns on/off server paging. When this is turned on, paging should be handled by the server - the grid will pass an object to your read method that looks like this: 
+
+```javascript
+{
+  paging: { size: [page size], page: [page_no] }
+  sorting: { [column] :[sortdirection] }
+}
+```
+
+You can then process this and pass the appropriate paging and sorting information to the server
+
+- page-size="[numeric]"
+  - The number of records to show on each page
+
+- page="[numeric]"
+  - The grid's current page number
+
+- sortable="[true/false]"
+  - Enable/disable sorting for this grid
+
+- server-sorting="[true/false]"
+  - Same as above but for sorting
+
+- auto-generate-columns="[true/false]"
+  - Should columns be automatically generated from the data source (requires some data to be read as the grid will look at the first row in the data set)
+
+- selectable="[true/false]"
+  - Enable selectable rows
+
+- selected-item="[current-data-row]"
+  - Represents the currently selected item in the grid
+
+- no-rows-message="[a message]"
+  - Message to show when there is no data in the grid. Won't show if value is "falsey"
+  
+- auto-load="[true/false]"
+  - Auto-refreshes the data source when the grid is attached to the DOM
+
+- loading-message="[message]"
+  - Message to show when the grid is in the middle of loading
