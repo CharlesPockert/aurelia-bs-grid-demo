@@ -2,6 +2,9 @@
 
 An Aurelia based data-grid control
 
+Demo here:
+http://charlespockert.github.io/aurelia-grid/
+
 ## Using the grid
 
 Import the plugin using standard plugin import syntax:
