@@ -20,22 +20,23 @@ Then use by placing a `<grid>` custom element in your view:
 <template>
   <!-- Grid... -->
   <grid read.call="getSomeData($event)">
-    <!-- Column template -->
-    <template replace-part="columns">
-      <td heading="ID" field="id" class="col-md-6">${ $item.id }</td>
-      <td heading="Name" field="name" class="col-md-6">${ $item.name }</td>
-    </template>
+    <!-- Row template -->
+    <grid-row replace-part="columns">
+      <!-- Column template(s) -->
+      <grid-col heading="ID" field="id" class="col-md-6">${ $item.id }</grid-col>
+      <grid-col heading="Name" field="name" class="col-md-6">${ $item.name }</grid-col>
+    </grid-row>
   </grid>
 </template>
 ```
 
 You can specify the columns and their templates in-line in the markup. This gives you a view-friendly way of defining a data-grid so you can safely re-use your viewmodels.
 
-The column templates use the new "replaceable-parts" Aurelia feature, so as you can see in the above example you need to provide a template which replaces the **"columns"** part. 
+As you can see in the above example you need to provide a template which provides both a `<grid-row>` element and one or more `<grid-col>` elements. These will form your row/column templates 
 
 ##Column templates
 
-The template should be a list of `<td>` elements, each of which represents a column. Each `<td>` should specify the following required attribute(s):
+The template should be a list of `<grid-col>` elements, each of which represents a column. Each `<grid-col>` should specify the following required attribute(s):
 
 **Required attributes**
 - field="someFieldName"
@@ -54,12 +55,12 @@ The column header. If not specified the value of `field` will be used
 
 Don't allow sorting on this column (overrides the grid sort setting)
 
-Any markup contained within the `<td>` will become the column template. This markup will be evaluated in the scope of the grid repeater and references the current row using an `$item` property
+Any markup contained within the `<grid-col>` will become the column template. This markup will be evaluated in the scope of the grid repeater and references the current row using an `$item` property
 
 This allows you to work with and template any value on the current data row:
 
 ```
-<td heading="ID" field="id" class="col-md-6">Hello world I am item ${ $item.id }</td>
+<grid-col heading="ID" field="id" class="col-md-6">Hello world I am item ${ $item.id }</grid-col>
 ```
 
 Additionally, since this markup is used directly in the rendered output you can add classes, expressions etc - anything that works in Aurelia should work on the column template
