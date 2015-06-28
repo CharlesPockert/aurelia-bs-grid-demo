@@ -1,6 +1,7 @@
 export class GridColumn {
 	
-	constructor(config) {
+	constructor(config, template) {
+		this.template = template;
 		this.field = config.field;
 
 		if(!this.field)

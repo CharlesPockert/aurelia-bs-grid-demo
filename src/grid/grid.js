@@ -1,7 +1,9 @@
-import {bindable, inject } from 'aurelia-framework';
+import {bindable, inject, skipContentProcessing } from 'aurelia-framework';
 import {GridColumn} from './grid-column';
+import {Compiler} from 'gooy/aurelia-compiler';
 
-@inject(Element)
+@skipContentProcessing()
+@inject(Element, Compiler)
 export class Grid {
 
 	/* == Options == */
@@ -46,8 +48,38 @@ export class Grid {
 	data = [];
 	count = 0;
 
-	constructor(element) {
+	constructor(element, compiler) {
 		this.element = element;
+		this.compiler = compiler;
+
+		// Grab user template from element
+		this.processUserTemplate();
+	}
+
+	processUserTemplate() {
+
+		// Get any col tags from the content
+		var rowElement = this.element.querySelector("grid-row");
+		var columnElements = Array.prototype.slice.call(rowElement.querySelectorAll("grid-col"));
+	
+		columnElements.forEach(c => {
+
+			var attrs = Array.prototype.slice.call(c.attributes), colHash = {};
+			attrs.forEach(a => colHash[a.name] = a.value);
+
+			var col = new GridColumn(colHash, c.innerHTML);
+
+			this.addColumn(col);
+		});
+
+		// Pull any row attrs into a hash object
+		this.rowAttrs = {};
+		var attrs = Array.prototype.slice.call(rowElement.attributes);
+		attrs.forEach(a => rowAttrHash[a.name] = a.value);
+
+		// Remove all children
+		while(this.element.childNodes.length > 0)
+			this.element.removeChild(this.element.childNodes[0]);
 	}
 
 	/* === Lifecycle === */
@@ -65,25 +97,47 @@ export class Grid {
 		if(this.serverPaging && !this.serverSorting)
 			this.sortable = false;
 
-		// Get the columns from the duplicate of the user columns template
-		var columnTemplate = this.element.querySelector("template"), 
-		columnElements = Array.prototype.slice.call(columnTemplate.content.querySelectorAll("td")),
-		columnContainer = this.element.querySelector("div");
+		// Build the rows then dynamically compile the table
+		// Get the table...
+		var table = this.element.querySelector("table>tbody");
+		var rowTemplate = Array.prototype.slice.call(table.querySelectorAll("tr"))[1];
 
-		// Iterate the tds and build a column list based on attributes
-		columnElements.forEach(c => {
+		// Create a fragment we will manipulate the DOM in
+		var fragment = document.createDocumentFragment();
 
-			var attrs = Array.prototype.slice.call(c.attributes), colHash = {};
-			attrs.forEach(a => colHash[a.name] = a.value);
+		// Move the row template to the fragment
+		fragment.appendChild(rowTemplate);
 
-			var col = new GridColumn(colHash);
+		// Create the repeater
+		rowTemplate.setAttribute("repeat.for", "$item of data");
 
-			this.addColumn(col);
+		// Copy any user specified row attributes to the row template
+		for (var prop in this.rowAttrs) {
+    		if (this.rowAttrs.hasOwnProperty(prop)) {
+				rowTemplate.setAttribute(prop, c[prop]);
+        	}
+		}	
+
+		// Create the columns
+		this.columns.forEach(c => {
+			var td = document.createElement("td");
+
+			// Set attributes
+			for (var prop in c) {
+	    		if (c.hasOwnProperty(prop)) {
+
+	    			if(prop == "template")
+	    				td.innerHTML = c[prop];
+	    			else
+		    			td.setAttribute(prop, c[prop]);
+	        	}
+			}	
+
+			rowTemplate.appendChild(td);
 		});
 
-		columnContainer.parentNode.removeChild(columnContainer);
-
-		
+		// Compile
+		this.compiler.compile(table, this, undefined, fragment);
 	}
 
 	addColumn(col) {
