@@ -1,7 +1,6 @@
 <template>
     <require from="pager/pager"></require>
     <div style="position:relative;">
-        ${selectedItem}
         <table class="table table-hover table-striped table-responsive selectable" show.bind="!showNoRowsMessage || (showNoRowsMessage && data.length > 0)">
             <tbody ref="tbody">
                 <tr role="button">
@@ -12,7 +11,7 @@
                         <img if.bind="$parent.sorting[$column.field] === 'asc'" src="img/bullet_arrow_up.png" />
                     </th>
                 </tr>
-                <tr role="button" click.delegate="$parent.select($item)" class="${ $item === $parent.selectedItem ? 'info' : '' }">
+                <tr role="button" click.delegate="$parent.select($item)">
                 </tr>
             </tbody>
         </table>

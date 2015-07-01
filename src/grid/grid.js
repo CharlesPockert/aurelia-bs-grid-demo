@@ -110,7 +110,8 @@ export class Grid {
 
 		// Create the repeater
 		rowTemplate.setAttribute("repeat.for", "$item of data");
-
+		rowTemplate.setAttribute("class", "${ $item === $parent.selectedItem ? 'info' : '' }");
+		
 		// Copy any user specified row attributes to the row template
 		for (var prop in this.rowAttrs) {
     		if (this.rowAttrs.hasOwnProperty(prop)) {
