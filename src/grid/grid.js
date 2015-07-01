@@ -75,7 +75,7 @@ export class Grid {
 		// Pull any row attrs into a hash object
 		this.rowAttrs = {};
 		var attrs = Array.prototype.slice.call(rowElement.attributes);
-		attrs.forEach(a => rowAttrHash[a.name] = a.value);
+		attrs.forEach(a => this.rowAttrs[a.name] = a.value);
 
 		// Remove all children
 		while(this.element.childNodes.length > 0)
@@ -115,7 +115,7 @@ export class Grid {
 		// Copy any user specified row attributes to the row template
 		for (var prop in this.rowAttrs) {
     		if (this.rowAttrs.hasOwnProperty(prop)) {
-				rowTemplate.setAttribute(prop, c[prop]);
+				rowTemplate.setAttribute(prop, this.rowTemplate[prop]);
         	}
 		}	
 
