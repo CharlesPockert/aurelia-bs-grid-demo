@@ -7,6 +7,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var paths = require('../paths');
 var compilerOptions = require('../babel-options');
 var assign = Object.assign || require('object.assign');
+var ghPages = require('gulp-gh-pages');
 
 // transpiles changed es6 files to SystemJS format
 // the plumber() call prevents 'pipe breaking' caused
@@ -43,13 +44,63 @@ gulp.task('build', function(callback) {
   return runSequence(
     'clean',
     ['build-system', 'build-html', 'deploy-aurelia'],
+    'bundle-app',
     callback
   );
+});
+
+
+gulp.task('deploy', function() {
+  return runSequence(
+    'build-prod',
+    'bundle-app',
+    ['copy-aurelia', 'copy-dist', 'copy-img', 'copy-loader', 'copy-styles', 'copy-root', 'copy-config'], 'deploy-gh-pages');
+});
+
+gulp.task('copy-aurelia', function() {
+  return gulp.src('./lib/**/*')
+    .pipe(gulp.dest('./gh-pages/dist'));
+});
+
+gulp.task('copy-dist', function() {
+  return gulp.src('./dist/**/*')
+    .pipe(gulp.dest('./gh-pages/dist'));
+});
+
+gulp.task('copy-img', function() {
+  return gulp.src('./img/**/*')
+    .pipe(gulp.dest('./gh-pages/img'));
+});
+
+gulp.task('copy-styles', function() {
+  return gulp.src('./styles/**/*')
+    .pipe(gulp.dest('./gh-pages/styles'));
+});
+
+gulp.task('copy-loader', function() {
+  return gulp.src('./loader/**/*')
+    .pipe(gulp.dest('./gh-pages/loader'));
+});
+
+gulp.task('copy-root', function() {
+  return gulp.src('./index.html')
+    .pipe(gulp.dest('./gh-pages'));
+});
+
+gulp.task('copy-config', function() {
+  return gulp.src('./config.js')
+    .pipe(gulp.dest('./gh-pages'));
+});
+
+gulp.task('deploy-gh-pages', function() {
+ return gulp.src('./gh-pages/**/*')
+   .pipe(ghPages());
 });
 
 gulp.task('build-prod', function(callback) {
   return runSequence(
     'build',
+    'bundle',
     'bundle-app',
     callback
   );
