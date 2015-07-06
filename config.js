@@ -25,6 +25,7 @@ System.config({
     "babel": "npm:babel-core@5.5.6",
     "babel-runtime": "npm:babel-runtime@5.5.6",
     "bootstrap": "github:twbs/bootstrap@3.3.5",
+    "charlespockert/aurelia-bs-grid": "github:charlespockert/aurelia-bs-grid@master",
     "core-js": "npm:core-js@0.9.18",
     "css": "github:systemjs/plugin-css@0.1.10",
     "font-awesome": "npm:font-awesome@4.3.0",
@@ -134,6 +135,10 @@ System.config({
       "aurelia-path": "github:aurelia/path@0.7.0",
       "aurelia-task-queue": "github:aurelia/task-queue@0.5.0",
       "core-js": "npm:core-js@0.9.18"
+    },
+    "github:charlespockert/aurelia-bs-grid@master": {
+      "bootstrap": "github:twbs/bootstrap@3.3.5",
+      "gooy/aurelia-compiler": "github:gooy/aurelia-compiler@0.0.4"
     },
     "github:gooy/aurelia-compiler@0.0.4": {
       "aurelia-loader": "github:aurelia/loader@0.7.0",

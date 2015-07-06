@@ -55,6 +55,7 @@
       "aurelia-http-client": "github:aurelia/http-client@^0.9.1",
       "aurelia-router": "github:aurelia/router@^0.9.0",
       "bootstrap": "github:twbs/bootstrap@^3.3.4",
+      "charlespockert/aurelia-bs-grid": "github:charlespockert/aurelia-bs-grid@master",
       "css": "github:systemjs/plugin-css@0.1.10",
       "font-awesome": "npm:font-awesome@^4.3.0",
       "gooy/aurelia-compiler": "github:gooy/aurelia-compiler@^0.0.4"
