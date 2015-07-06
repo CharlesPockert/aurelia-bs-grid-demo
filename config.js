@@ -14,6 +14,25 @@ System.config({
   },
   "bundles": {
     "app-bundle": [
+<<<<<<< HEAD
+=======
+      "row-selection",
+      "remote-data",
+      "nav-bar",
+      "local-data",
+      "column-templates",
+      "github:components/jquery@2.1.4/jquery",
+      "github:twbs/bootstrap@3.3.5/css/bootstrap.css!github:systemjs/plugin-css@0.1.10",
+      "github:components/jquery@2.1.4",
+      "github:twbs/bootstrap@3.3.5/js/bootstrap",
+      "github:twbs/bootstrap@3.3.5",
+      "app",
+      "animation-main"
+    ],
+    "aurelia": [
+      "github:aurelia/logging-console@0.6.0/index",
+      "github:aurelia/logging-console@0.6.0",
+>>>>>>> dca9e744069c1d33eb79a97548fa6086631abce5
       "npm:core-js@0.9.18/modules/$.fw",
       "npm:core-js@0.9.18/modules/$.dom-create",
       "npm:core-js@0.9.18/modules/$.shared",
@@ -92,12 +111,16 @@ System.config({
       "npm:core-js@0.9.18/modules/core.date",
       "npm:core-js@0.9.18/modules/core.global",
       "npm:core-js@0.9.18/modules/core.log",
+<<<<<<< HEAD
       "github:aurelia/logging@0.6.0/index",
       "github:aurelia/metadata@0.7.0/index",
       "github:aurelia/dependency-injection@0.9.0/index",
       "github:aurelia/path@0.8.0/index",
       "github:aurelia/task-queue@0.6.0/index",
       "github:aurelia/loader-default@0.9.0/index",
+=======
+      "github:aurelia/path@0.8.0/index",
+>>>>>>> dca9e744069c1d33eb79a97548fa6086631abce5
       "npm:core-js@0.9.18/modules/$",
       "npm:core-js@0.9.18/modules/$.wks",
       "npm:core-js@0.9.18/modules/$.def",
@@ -118,16 +141,21 @@ System.config({
       "npm:core-js@0.9.18/modules/es7.string.lpad",
       "npm:core-js@0.9.18/modules/es7.map.to-json",
       "npm:core-js@0.9.18/modules/web.timers",
+<<<<<<< HEAD
       "github:aurelia/logging@0.6.0",
       "github:aurelia/metadata@0.7.0",
       "github:aurelia/dependency-injection@0.9.0",
       "github:aurelia/path@0.8.0",
       "github:aurelia/task-queue@0.6.0",
       "github:aurelia/loader-default@0.9.0",
+=======
+      "github:aurelia/path@0.8.0",
+>>>>>>> dca9e744069c1d33eb79a97548fa6086631abce5
       "npm:core-js@0.9.18/modules/$.cof",
       "npm:core-js@0.9.18/modules/$.array-methods",
       "github:jspm/nodelibs-process@0.1.1/index",
       "github:aurelia/loader@0.8.0/index",
+<<<<<<< HEAD
       "github:aurelia/binding@0.8.0/index",
       "npm:core-js@0.9.18/modules/es5",
       "github:jspm/nodelibs-process@0.1.1",
@@ -151,6 +179,30 @@ System.config({
       "github:charlespockert/aurelia-bs-grid@0.0.1",
       "github:aurelia/logging-console@0.6.0/index",
       "github:aurelia/logging-console@0.6.0",
+=======
+      "npm:core-js@0.9.18/modules/es5",
+      "github:jspm/nodelibs-process@0.1.1",
+      "github:aurelia/loader@0.8.0",
+      "npm:core-js@0.9.18/modules/$.task",
+      "npm:core-js@0.9.18/modules/es6.promise",
+      "npm:core-js@0.9.18/shim",
+      "npm:core-js@0.9.18/index",
+      "npm:core-js@0.9.18",
+      "github:aurelia/metadata@0.7.0/index",
+      "github:aurelia/metadata@0.7.0",
+      "github:aurelia/loader-default@0.9.0/index",
+      "github:aurelia/loader-default@0.9.0",
+      "github:aurelia/task-queue@0.6.0/index",
+      "github:aurelia/logging@0.6.0/index",
+      "github:aurelia/task-queue@0.6.0",
+      "github:aurelia/logging@0.6.0",
+      "github:aurelia/dependency-injection@0.9.0/index",
+      "github:aurelia/dependency-injection@0.9.0",
+      "github:aurelia/binding@0.8.0/index",
+      "github:aurelia/binding@0.8.0",
+      "github:aurelia/templating@0.13.1/index",
+      "github:aurelia/templating@0.13.1",
+>>>>>>> dca9e744069c1d33eb79a97548fa6086631abce5
       "github:aurelia/templating-binding@0.13.0/index",
       "github:aurelia/templating-binding@0.13.0",
       "github:aurelia/templating-resources@0.13.0/if",
@@ -181,6 +233,7 @@ System.config({
       "github:aurelia/history-browser@0.6.0",
       "github:aurelia/animator-css@0.13.0/index",
       "github:aurelia/animator-css@0.13.0",
+<<<<<<< HEAD
       "github:aurelia/http-client@0.10.0/index",
       "github:aurelia/http-client@0.10.0",
       "github:aurelia/bootstrapper@0.14.0/index",
@@ -198,6 +251,14 @@ System.config({
       "github:twbs/bootstrap@3.3.5",
       "app",
       "animation-main"
+=======
+      "github:aurelia/framework@0.13.1/index",
+      "github:aurelia/framework@0.13.1",
+      "github:aurelia/http-client@0.10.0/index",
+      "github:aurelia/http-client@0.10.0",
+      "github:aurelia/bootstrapper@0.14.0/index",
+      "github:aurelia/bootstrapper@0.14.0"
+>>>>>>> dca9e744069c1d33eb79a97548fa6086631abce5
     ]
   }
 });
