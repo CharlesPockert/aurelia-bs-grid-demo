@@ -26642,7 +26642,7 @@ System.register("app", ["github:twbs/bootstrap@3.3.5", "github:twbs/bootstrap@3.
         _createClass(App, [{
           key: 'configureRouter',
           value: function configureRouter(config, router) {
-            config.title = 'Aurelia';
+            config.title = 'Demo Pages';
             config.map([{
               route: ['', 'welcome'],
               moduleId: 'remote-data',
@@ -26667,7 +26667,7 @@ System.register("app", ["github:twbs/bootstrap@3.3.5", "github:twbs/bootstrap@3.
               route: 'mutation',
               moduleId: 'datasource-mutation',
               nav: true,
-              title: 'Mutation'
+              title: 'Datasource Mutation'
             }]);
             this.router = router;
           }
