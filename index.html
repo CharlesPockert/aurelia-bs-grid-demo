@@ -1,7 +1,4 @@
-<!doctype html>
-<html>
-
-<head>
+<!DOCTYPE html><html><head>
     <title>Aurelia</title>
     <link rel="stylesheet" type="text/css" href="jspm_packages/npm/font-awesome@4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="styles/styles.css">
@@ -16,14 +13,9 @@
     <script src="loader/system.js"></script>
     <script src="config.js"></script>
     <script>
-      System.config({
-          "paths": {
-              "*": "dist/*.js"
-          }
-      });
-
-      System.import('aurelia-bootstrapper');
+    System.import('aurelia-bootstrapper');
     </script>
-</body>
+    <link aurelia-view-bundle="" rel="import" href="./dist/app-bundle.html" />
+  
 
-</html>
+</body></html>

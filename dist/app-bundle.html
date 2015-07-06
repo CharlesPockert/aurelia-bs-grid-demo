@@ -1,0 +1,194 @@
+<template id="app.html!view">
+  <require from="./nav-bar"></require>
+
+  <nav-bar router.bind="router"></nav-bar>
+
+  <div class="page-host">
+    <router-view></router-view>
+  </div>
+</template>
+<template id="column-templates.html!view">
+    <section class="au-animate">
+        <br>
+        <!-- Grid definition -->
+        <div style="height:600px;overflow:auto">
+            <grid read.call="getLocalData($event)" page-size="5" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false">
+                <grid-row>
+                    <grid-col heading="ID" field="id" class="col-md-1">This is a <i>column template</i>: <strong>${ $item.id }</strong></grid-col>
+                    <grid-col heading="Name" field="name" class="col-md-2"><button class="btn btn-primary" click.delegate="$parent.$parent.itemClicked($item)">Click me I'm ... ${ $item.name }!</button></grid-col>
+                </grid-row>
+            </grid>
+        </div>
+    </section>
+</template>
+<template id="datasource-mutation.html!view">
+    <section class="au-animate">
+        <br>
+        <button class="btn btn-success" click.delegate="addPerson()">Add Someone</button>
+        <button class="btn btn-danger" click.delegate="removePerson()">Remove Someone</button>
+        <br>
+        <br>
+        <!-- Grid definition -->
+        <div style="height:600px;overflow:auto">
+            <grid read.call="getLocalData($event)" page-size="5" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false">
+                <grid-row>
+                    <grid-col heading="ID" field="id" class="col-md-1"><strong>${ $item.id }</strong></grid-col>
+                    <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
+                </grid-row>
+            </grid>
+        </div>
+    </section>
+</template>
+<template id="local-data.html!view">
+    <section class="au-animate">
+        <br>
+        <div class="form">
+            <div class="form-group">
+                <label class="control-label">Page Size</label>
+                <div>
+                    <select style="width:200px" class="form-control" value.bind="grid.pageSize">
+                        <option value="10">10</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="500">500</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <!-- Grid definition -->
+        <div style="height:600px;overflow:auto">
+            <grid read.call="getLocalData($event)" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false">
+                <grid-row>
+                    <grid-col heading="ID" field="id" class="col-md-1">${ $item.id }</grid-col>
+                    <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
+                </grid-row>
+            </grid>
+        </div>
+    </section>
+</template>
+<template id="nav-bar.html!view">
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle Navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">
+        <i class="fa fa-home"></i>
+        <span>${router.title}</span>
+      </a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
+          <a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1.in" href.bind="row.href">${row.title}</a>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li class="loader" if.bind="router.isNavigating">
+          <i class="fa fa-spinner fa-spin fa-2x"></i>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</template>
+
+<template id="remote-data.html!view">
+    <section class="au-animate">
+        <br>
+        <div class="form">
+            <div class="form-group">
+                <label class="control-label">Page Size</label>
+                <div>
+                    <select style="width:200px" class="form-control" value.bind="grid.pageSize">
+                        <option value="10">10</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="500">500</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <!-- Grid definition -->
+        <div style="height:600px;overflow:auto">
+            <grid read.call="getComments($event)" grid.ref="grid" server-paging.bind="true" server-sorting.bind="false" selectable="true">
+                <grid-row>
+                    <grid-col heading="ID" field="id" class="col-md-1">${ $item.id }</grid-col>
+                    <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
+                    <grid-col heading="Email" field="email" class="col-md-1"><a href="mailto:${ $item.email }">${ $item.email }</a></grid-col>
+                    <grid-col heading="Body" field="body" class="col-md-8">${ $item.body }</grid-col>
+                </grid-row>
+            </grid>
+        </div>
+    </section>
+</template>
+<template id="row-selection.html!view">
+    <section class="au-animate">
+        <br>
+        <p>Currently selected: ${ selected.id } - ${ selected.name }</p>
+        <!-- Grid definition -->
+        <div style="height:600px;overflow:auto">
+            <grid read.call="getLocalData($event)" selected-item.two-way="selected" selectable.bind="true" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false">
+                <grid-row>
+                    <grid-col heading="ID" field="id" class="col-md-1">${ $item.id }</grid-col>
+                    <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
+                </grid-row>
+            </grid>
+        </div>
+    </section>
+</template><template id="github:charlespockert/aurelia-bs-grid@0.0.1/grid/grid.html!view"><require from="../pager/pager"></require>
+    <div style="position:relative;">
+        <table class="table table-hover table-striped table-responsive selectable" show.bind="!showNoRowsMessage || (showNoRowsMessage && data.length > 0)">
+            <tbody ref="tbody">
+                <tr role="button">
+                    <th repeat.for="$column of columns">
+                        <a if.bind="$column.nosort == false" click.trigger="$parent.sortChanged($column.field)">${ $column.heading }</a>
+                        <span if.bind="$column.nosort == true">${ $column.heading }</span>
+                        <img if.bind="$parent.sorting[$column.field] === 'desc'" src="img/bullet_arrow_down.png" />
+                        <img if.bind="$parent.sorting[$column.field] === 'asc'" src="img/bullet_arrow_up.png" />
+                    </th>
+                </tr>
+                <tr role="button" click.delegate="$parent.select($item)">
+                </tr>
+            </tbody>
+        </table>
+        <div if.bind="pageable" class="text-center">
+            <pager num-to-show.bind="10" pager.ref="pager" on-page-changed.call="pageChanged($event)"></pager>
+        </div>
+        <!-- No rows message -->
+        <div if.bind="showNoRowsMessage && data.length == 0" class="alert alert-warning">${ noRowsMessage }</div>
+        <div class="overlay" if.bind="loading"></div>
+        <div class="overlay-message" if.bind="loading">
+            <i class="fa fa-spinner fa-spin"></i>
+        </div>
+    </div>
+</template>
+
+
+<template id="github:charlespockert/aurelia-bs-grid@0.0.1/pager/pager.html!view">
+    <ul class="pagination">
+        <li>
+            <a href="" click.delegate="prev()" aria-label="Previous">
+                <span aria-hidden="true">
+                        &laquo;
+                    </span>
+            </a>
+        </li>
+        <li repeat.for="curPage of pages" class="${ curPage == $parent.page ? 'active' : '' }">
+            <!-- This span is an IE bug fix - if a &raquo; or many other chars are used before an interpolation for some reason that interpolation fails, following ones are fine (this is for the same property). Adding an invisible span with an interpolate in it fixes the issue  -->
+            <span style="display:none">${curPage}</span>
+            <a href="" click.delegate="$parent.changePage(curPage)">${curPage}</a>
+        </li>
+        <li>
+            <a href="" click.delegate="next()" aria-label="Next">
+                <span aria-hidden="true">
+                        &raquo;
+                    </span>
+            </a>
+        </li>
+    </ul>
+</template>
