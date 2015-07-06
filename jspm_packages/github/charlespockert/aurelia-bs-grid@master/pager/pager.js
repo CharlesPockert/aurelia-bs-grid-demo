@@ -1,122 +1,92 @@
-/* */ 
-System.register(['aurelia-framework'], function (_export) {
-	'use strict';
+import {bindable} from 'aurelia-framework';
 
-	var bindable, Pager;
+export class Pager {
 
-	var _createDecoratedClass = (function () { function defineProperties(target, descriptors, initializers) { for (var i = 0; i < descriptors.length; i++) { var descriptor = descriptors[i]; var decorators = descriptor.decorators; var key = descriptor.key; delete descriptor.key; delete descriptor.decorators; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor || descriptor.initializer) descriptor.writable = true; if (decorators) { for (var f = 0; f < decorators.length; f++) { var decorator = decorators[f]; if (typeof decorator === 'function') { descriptor = decorator(target, key, descriptor) || descriptor; } else { throw new TypeError('The decorator for method ' + descriptor.key + ' is of the invalid type ' + typeof decorator); } } if (descriptor.initializer !== undefined) { initializers[key] = descriptor; continue; } } Object.defineProperty(target, key, descriptor); } } return function (Constructor, protoProps, staticProps, protoInitializers, staticInitializers) { if (protoProps) defineProperties(Constructor.prototype, protoProps, protoInitializers); if (staticProps) defineProperties(Constructor, staticProps, staticInitializers); return Constructor; }; })();
+	// Called when the selected page changes
+	@bindable onPageChanged;
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	// Max num pages to show
+	@bindable numToShow = 5;
 
-	function _defineDecoratedPropertyDescriptor(target, key, descriptors) { var _descriptor = descriptors[key]; if (!_descriptor) return; var descriptor = {}; for (var _key in _descriptor) descriptor[_key] = _descriptor[_key]; descriptor.value = descriptor.initializer.call(target); Object.defineProperty(target, key, descriptor); }
+	// Total number of items in the dataset
+	page = 1;
+	pageCount = 0;
 
-	return {
-		setters: [function (_aureliaFramework) {
-			bindable = _aureliaFramework.bindable;
-		}],
-		execute: function () {
-			Pager = (function () {
-				var _instanceInitializers = {};
+	pages = [];
 
-				function Pager() {
-					_classCallCheck(this, Pager);
+	changePage(page) {
 
-					_defineDecoratedPropertyDescriptor(this, 'onPageChanged', _instanceInitializers);
+		var oldPage = this.page;
 
-					_defineDecoratedPropertyDescriptor(this, 'numToShow', _instanceInitializers);
+	    this.page = this.cap(page);
 
-					this.page = 1;
-					this.pageCount = 0;
-					this.pages = [];
-				}
+	    if (oldPage !== this.page) {
+	        this.onPageChanged(this.page);
+	    }
+	}
 
-				_createDecoratedClass(Pager, [{
-					key: 'changePage',
-					value: function changePage(page) {
+	// Called when the data source changes
+	update(page, pagesize, totalItems) {
+		this.page = page;
+		this.totalItems = totalItems;
+		this.pageSize = pagesize;
 
-						var oldPage = this.page;
+		this.createPages();
+	}
 
-						this.page = this.cap(page);
+	cap(page) {
+		if(page < 1) return 1;
+		if(page > this.pageCount) return this.pageCount;
 
-						if (oldPage !== this.page) {
-							this.onPageChanged(this.page);
-						}
-					}
-				}, {
-					key: 'update',
-					value: function update(page, pagesize, totalItems) {
-						this.page = page;
-						this.totalItems = totalItems;
-						this.pageSize = pagesize;
+		return page;
+	}
 
-						this.createPages();
-					}
-				}, {
-					key: 'cap',
-					value: function cap(page) {
-						if (page < 1) return 1;
-						if (page > this.pageCount) return this.pageCount;
+	createPages() {
 
-						return page;
-					}
-				}, {
-					key: 'createPages',
-					value: function createPages() {
-						this.pageCount = Math.ceil(this.totalItems / this.pageSize);
+		// Calc the max page number
+		this.pageCount = Math.ceil(this.totalItems / this.pageSize);
 
-						var numToRender = this.pageCount < this.numToShow ? this.pageCount : this.numToShow;
+		// Cap the number of pages to render if the count is less than number to show at once
+		var numToRender = this.pageCount < this.numToShow ? this.pageCount : this.numToShow;
 
-						var indicatorPosition = Math.ceil(numToRender / 2);
+		// The current page should try to appear in the middle, so get the median 
+		// of the number of pages to show at once - this will be our adjustment factor
+		var indicatorPosition = Math.ceil(numToRender / 2);
 
-						var firstPageNumber = this.page - indicatorPosition + 1;
+		// Subtract the pos from the current page to get the first page no
+		var firstPageNumber = this.page - indicatorPosition + 1;
 
-						if (firstPageNumber < 1) firstPageNumber = 1;
+		// If the first page is less than 1, make it 1
+		if(firstPageNumber < 1)
+			firstPageNumber = 1;
 
-						var lastPageNumber = firstPageNumber + numToRender - 1;
+		// Add the number of pages to render
+		// remember to subtract 1 as this represents the first page number
+		var lastPageNumber = firstPageNumber + numToRender - 1;
 
-						if (lastPageNumber > this.pageCount) {
-							var dif = this.pageCount - lastPageNumber;
+		// If the last page is greater than the page count
+		// add the difference to the first/last page
+		if(lastPageNumber > this.pageCount){
+			var dif = this.pageCount - lastPageNumber;
 
-							firstPageNumber += dif;
-							lastPageNumber += dif;
-						}
-
-						var pages = [];
-
-						for (var i = firstPageNumber; i <= lastPageNumber; i++) {
-							pages.push(i);
-						};
-
-						this.pages = pages;
-					}
-				}, {
-					key: 'next',
-					value: function next() {
-						this.changePage(this.page + 1);
-					}
-				}, {
-					key: 'prev',
-					value: function prev() {
-						this.changePage(this.page - 1);
-					}
-				}, {
-					key: 'onPageChanged',
-					decorators: [bindable],
-					initializer: null,
-					enumerable: true
-				}, {
-					key: 'numToShow',
-					decorators: [bindable],
-					initializer: function initializer() {
-						return 5;
-					},
-					enumerable: true
-				}], null, _instanceInitializers);
-
-				return Pager;
-			})();
-
-			_export('Pager', Pager);
+			firstPageNumber += dif;
+			lastPageNumber += dif;
 		}
-	};
-});
+
+		var pages = [];
+
+		for (var i = firstPageNumber; i <= lastPageNumber; i++) {
+			pages.push(i);
+		};
+
+		this.pages = pages;
+	}
+
+	next() {
+		this.changePage(this.page + 1);
+	}
+
+	prev() {
+		this.changePage(this.page - 1);
+	}
+}

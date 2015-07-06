@@ -13,20 +13,6 @@ System.config({
     "npm:*": "jspm_packages/npm/*.js"
   },
   "bundles": {
-    "app-bundle": [
-      "row-selection",
-      "remote-data",
-      "nav-bar",
-      "local-data",
-      "column-templates",
-      "github:components/jquery@2.1.4/jquery",
-      "github:twbs/bootstrap@3.3.5/css/bootstrap.css!github:systemjs/plugin-css@0.1.10",
-      "github:components/jquery@2.1.4",
-      "github:twbs/bootstrap@3.3.5/js/bootstrap",
-      "github:twbs/bootstrap@3.3.5",
-      "app",
-      "animation-main"
-    ],
     "aurelia": [
       "github:aurelia/logging-console@0.6.0/index",
       "github:aurelia/logging-console@0.6.0",
@@ -192,6 +178,21 @@ System.config({
       "github:aurelia/http-client@0.10.0",
       "github:aurelia/bootstrapper@0.14.0/index",
       "github:aurelia/bootstrapper@0.14.0"
+    ],
+    "app-bundle": [
+      "row-selection",
+      "remote-data",
+      "nav-bar",
+      "local-data",
+      "datasource-mutation",
+      "column-templates",
+      "github:components/jquery@2.1.4/jquery",
+      "github:twbs/bootstrap@3.3.5/css/bootstrap.css!github:systemjs/plugin-css@0.1.10",
+      "github:components/jquery@2.1.4",
+      "github:twbs/bootstrap@3.3.5/js/bootstrap",
+      "github:twbs/bootstrap@3.3.5",
+      "app",
+      "animation-main"
     ]
   }
 });

@@ -290,6 +290,95 @@ System.register("local-data", ["github:aurelia/http-client@0.10.0", "github:aure
   };
 });
 
+System.register("datasource-mutation", ["github:aurelia/http-client@0.10.0", "github:aurelia/framework@0.13.1"], function(_export) {
+  'use strict';
+  var HttpClient,
+      inject,
+      LocalData;
+  var _createClass = (function() {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ('value' in descriptor)
+          descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+    return function(Constructor, protoProps, staticProps) {
+      if (protoProps)
+        defineProperties(Constructor.prototype, protoProps);
+      if (staticProps)
+        defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  })();
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError('Cannot call a class as a function');
+    }
+  }
+  return {
+    setters: [function(_aureliaHttpClient) {
+      HttpClient = _aureliaHttpClient.HttpClient;
+    }, function(_aureliaFramework) {
+      inject = _aureliaFramework.inject;
+    }],
+    execute: function() {
+      LocalData = (function() {
+        function LocalData(httpClient) {
+          _classCallCheck(this, _LocalData);
+          this.data = [];
+          this.names = ['charles', 'john', 'oliver', 'fred', 'dirk', 'mike', 'ewan', 'gary', 'james', 'pete'];
+          this.httpClient = httpClient;
+        }
+        var _LocalData = LocalData;
+        _createClass(_LocalData, [{
+          key: 'getLocalData',
+          value: function getLocalData(gridOptions) {
+            var _this = this;
+            for (var i = 0; i < 3; i++) {
+              this.data.push({
+                id: i,
+                name: this.names[i]
+              });
+            }
+            ;
+            return new Promise(function(resolve, reject) {
+              resolve({
+                data: _this.data,
+                count: _this.data.length
+              });
+            });
+          }
+        }, {
+          key: 'addPerson',
+          value: function addPerson() {
+            if (this.data.length < 10) {
+              var i = this.data.length;
+              this.data.push({
+                id: i,
+                name: this.names[i]
+              });
+            }
+          }
+        }, {
+          key: 'removePerson',
+          value: function removePerson() {
+            if (this.data.length > 0) {
+              this.data.pop();
+            }
+          }
+        }]);
+        LocalData = inject(HttpClient)(LocalData) || LocalData;
+        return LocalData;
+      })();
+      _export('LocalData', LocalData);
+    }
+  };
+});
+
 System.register("column-templates", ["github:aurelia/http-client@0.10.0", "github:aurelia/framework@0.13.1"], function(_export) {
   'use strict';
   var HttpClient,
@@ -7957,6 +8046,11 @@ System.register("app", ["github:twbs/bootstrap@3.3.5", "github:twbs/bootstrap@3.
               moduleId: 'row-selection',
               nav: true,
               title: 'Selection'
+            }, {
+              route: 'mutation',
+              moduleId: 'datasource-mutation',
+              nav: true,
+              title: 'Mutation'
             }]);
             this.router = router;
           }
