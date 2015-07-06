@@ -1,5 +1,4 @@
 <template>
-    <require from="grid/grid"></require>
     <section class="au-animate">
         <br />
         <div class="form">
@@ -17,11 +16,13 @@
         </div>
         <!-- Grid definition -->
         <div style="height:600px;overflow:auto">
-            <grid read.call="getLocalData($event)" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false">
-                <template replace-part="columns">
-                    <td heading="ID" field="id" class="col-md-1">${ $item.id }</td>
-                    <td heading="Name" field="name" class="col-md-2">${ $item.name }</td>
-                </template>
+            <grid read.call="getComments($event)" grid.ref="grid" server-paging.bind="true" server-sorting.bind="false" selectable="true">
+                <grid-row>
+                    <grid-col heading="ID" field="id" class="col-md-1">${ $item.id }</grid-col>
+                    <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
+                    <grid-col heading="Email" field="email" class="col-md-1"><a href="mailto:${ $item.email }">${ $item.email }</a></grid-col>
+                    <grid-col heading="Body" field="body" class="col-md-8">${ $item.body }</grid-col>
+                </grid-row>
             </grid>
         </div>
     </section>
