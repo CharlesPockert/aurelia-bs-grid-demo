@@ -19,6 +19,7 @@
     "url": "http://github.com/aurelia/skeleton-navigation"
   },
   "devDependencies": {
+    "aurelia-cli": "^0.2.1",
     "aurelia-tools": "^0.1.3",
     "browser-sync": "^1.8.1",
     "conventional-changelog": "0.0.11",
@@ -71,7 +72,7 @@
       "aurelia-templating-resources": "github:aurelia/templating-resources@^0.13.0",
       "aurelia-templating-router": "github:aurelia/templating-router@^0.14.0",
       "bootstrap": "github:twbs/bootstrap@^3.3.4",
-      "charlespockert/aurelia-bs-grid": "github:charlespockert/aurelia-bs-grid@master",
+      "charlespockert/aurelia-bs-grid": "github:charlespockert/aurelia-bs-grid@^0.0.1",
       "css": "github:systemjs/plugin-css@0.1.10",
       "font-awesome": "npm:font-awesome@^4.3.0",
       "gooy/aurelia-compiler": "github:gooy/aurelia-compiler@^0.0.5"

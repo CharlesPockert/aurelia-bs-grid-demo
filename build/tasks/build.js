@@ -30,12 +30,6 @@ gulp.task('build-html', function () {
     .pipe(gulp.dest(paths.output));
 });
 
-gulp.task('deploy-aurelia', function() {
-  //console.log(fs);//fs.move("lib/aurelia.js", "dist/aurelia.js");
-  gulp.src('./lib/aurelia.js')
-  .pipe(gulp.dest('./dist'));
-});
-
 // this task calls the clean task (located
 // in ./clean.js), then runs the build-system
 // and build-html tasks in parallel
@@ -43,65 +37,8 @@ gulp.task('deploy-aurelia', function() {
 gulp.task('build', function(callback) {
   return runSequence(
     'clean',
-    ['build-system', 'build-html', 'deploy-aurelia'],
-    'bundle-app',
+    ['build-system', 'build-html'],
     callback
   );
 });
 
-
-gulp.task('deploy', function() {
-  return runSequence(
-    'build-prod',
-    'bundle-app',
-    ['copy-aurelia', 'copy-dist', 'copy-img', 'copy-loader', 'copy-styles', 'copy-root', 'copy-config'], 'deploy-gh-pages');
-});
-
-gulp.task('copy-aurelia', function() {
-  return gulp.src('./lib/**/*')
-    .pipe(gulp.dest('./gh-pages/dist'));
-});
-
-gulp.task('copy-dist', function() {
-  return gulp.src('./dist/**/*')
-    .pipe(gulp.dest('./gh-pages/dist'));
-});
-
-gulp.task('copy-img', function() {
-  return gulp.src('./img/**/*')
-    .pipe(gulp.dest('./gh-pages/img'));
-});
-
-gulp.task('copy-styles', function() {
-  return gulp.src('./styles/**/*')
-    .pipe(gulp.dest('./gh-pages/styles'));
-});
-
-gulp.task('copy-loader', function() {
-  return gulp.src('./loader/**/*')
-    .pipe(gulp.dest('./gh-pages/loader'));
-});
-
-gulp.task('copy-root', function() {
-  return gulp.src('./index.html')
-    .pipe(gulp.dest('./gh-pages'));
-});
-
-gulp.task('copy-config', function() {
-  return gulp.src('./config.js')
-    .pipe(gulp.dest('./gh-pages'));
-});
-
-gulp.task('deploy-gh-pages', function() {
- return gulp.src('./gh-pages/**/*')
-   .pipe(ghPages());
-});
-
-gulp.task('build-prod', function(callback) {
-  return runSequence(
-    'build',
-    'bundle',
-    'bundle-app',
-    callback
-  );
-});
