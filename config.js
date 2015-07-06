@@ -14,6 +14,17 @@ System.config({
   },
   "bundles": {
     "app-bundle": [
+      "github:webcomponents/webcomponentsjs@0.6.3/webcomponents.min",
+      "github:webcomponents/webcomponentsjs@0.6.3/webcomponents",
+      "github:webcomponents/webcomponentsjs@0.6.3/webcomponents-lite.min",
+      "github:webcomponents/webcomponentsjs@0.6.3/webcomponents-lite",
+      "github:webcomponents/webcomponentsjs@0.6.3/ShadowDOM.min",
+      "github:webcomponents/webcomponentsjs@0.6.3/ShadowDOM",
+      "github:webcomponents/webcomponentsjs@0.6.3/HTMLImports.min",
+      "github:webcomponents/webcomponentsjs@0.6.3/HTMLImports",
+      "github:webcomponents/webcomponentsjs@0.6.3/CustomElements.min",
+      "github:webcomponents/webcomponentsjs@0.6.3/CustomElements",
+      "github:aurelia/html-template-element@0.2.0/HTMLTemplateElement.min",
       "npm:core-js@0.9.18/modules/$.fw",
       "npm:core-js@0.9.18/modules/$.dom-create",
       "npm:core-js@0.9.18/modules/$.shared",
