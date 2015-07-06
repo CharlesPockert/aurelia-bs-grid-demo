@@ -5,9 +5,5 @@ bower_components
 .DS_STORE
 build/reports
 dist
-<<<<<<< HEAD
 gh-pages
 lib
-=======
-gh-pages
->>>>>>> dca9e744069c1d33eb79a97548fa6086631abce5

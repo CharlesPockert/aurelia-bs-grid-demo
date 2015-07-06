@@ -20,12 +20,12 @@ aurelia.command('bundle', {
                 'github:aurelia/logging-console@0.6.0',
                 'github:charlespockert/**/*',
                 'github:gooy/aurelia-compiler@0.0.5',
-                //'github:webcomponents/webcomponentsjs@0.6.3/HTMLImports.min',
-                //'github:aurelia/html-template-element@0.2.0'
+                'github:aurelia/html-template-element@0.2.0/**/*',  
+                'github:webcomponents/webcomponentsjs@0.6.3/**/*',
             ],
             options: {
                 inject: true,
-                minify: false
+                minify: true
             }
         }
     },
