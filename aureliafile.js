@@ -25,13 +25,13 @@ aurelia.command('bundle', {
             ],
             options: {
                 inject: true,
-                minify: true
+                minify: false
             }
         }
     },
     template: {
         "dist/app-bundle": {
-            pattern: ['dist/*.html'],
+            pattern: ['dist/*.html', 'jspm_packages/github/charlespockert/aurelia-bs-grid@0.0.1/**/*.html'],
             options: {
                 inject: true
             }
