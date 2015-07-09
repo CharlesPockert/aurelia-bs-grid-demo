@@ -7,6 +7,20 @@
     <router-view></router-view>
   </div>
 </template>
+<template id="column-filters.html!view">
+    <section class="au-animate">
+        <br>
+        <!-- Grid definition -->
+        <div style="height:600px;overflow:auto">
+            <grid read.call="getLocalData($event)" show-column-filters="true" selected-item.two-way="selected" selectable.bind="true" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false">
+                <grid-row>
+                    <grid-col heading="ID" field="id" class="col-md-1">${ $item.id }</grid-col>
+                    <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
+                </grid-row>
+            </grid>
+        </div>
+    </section>
+</template>
 <template id="column-templates.html!view">
     <section class="au-animate">
         <br>
@@ -30,7 +44,7 @@
         <br>
         <!-- Grid definition -->
         <div style="height:600px;overflow:auto">
-            <grid read.call="getLocalData($event)" page-size="5" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false">
+            <grid read.call="getLocalData($event)" page-size="5" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false" no-rows-message="Nothing to see here!">
                 <grid-row>
                     <grid-col heading="ID" field="id" class="col-md-1"><strong>${ $item.id }</strong></grid-col>
                     <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
@@ -59,8 +73,8 @@
         <div style="height:600px;overflow:auto">
             <grid read.call="getLocalData($event)" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false">
                 <grid-row>
-                    <grid-col heading="ID" field="id" class="col-md-1">${ $item.id }</grid-col>
-                    <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
+                    <grid-col heading="ID" field="id" class="col-xs-1">${ $item.id }</grid-col>
+                    <grid-col heading="Name" field="name" class="col-xs-11">${ $item.name }</grid-col>
                 </grid-row>
             </grid>
         </div>
@@ -96,7 +110,6 @@
     </div>
   </nav>
 </template>
-
 <template id="remote-data.html!view">
     <section class="au-animate">
         <br>
@@ -115,7 +128,7 @@
         </div>
         <!-- Grid definition -->
         <div style="height:600px;overflow:auto">
-            <grid read.call="getComments($event)" grid.ref="grid" server-paging.bind="true" server-sorting.bind="false" selectable="true">
+            <grid read.call="getComments($event)" grid.ref="grid" server-paging.bind="true" server-sorting.bind="false" selectable="true" show-column-filters.bind="true">
                 <grid-row>
                     <grid-col heading="ID" field="id" class="col-md-1">${ $item.id }</grid-col>
                     <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
@@ -140,16 +153,27 @@
             </grid>
         </div>
     </section>
-</template><template id="github:charlespockert/aurelia-bs-grid@0.0.1/grid/grid.html!view"><require from="../pager/pager"></require>
+</template>
+<template id="github:charlespockert/aurelia-bs-grid@master/grid/grid.html!view">
+    <require from="../pager/pager"></require>
     <div style="position:relative;">
-        <table class="table table-hover table-striped table-responsive selectable" show.bind="!showNoRowsMessage || (showNoRowsMessage && data.length > 0)">
+        <table class="table table-hover table-striped table-responsive selectable" show.bind="!showNoRowsMessage || (showNoRowsMessage &amp;&amp; count > 0)">
             <tbody ref="tbody">
-                <tr role="button">
+                <tr if.bind="showColumnFilters">
                     <th repeat.for="$column of columns">
-                        <a if.bind="$column.nosort == false" click.trigger="$parent.sortChanged($column.field)">${ $column.heading }</a>
-                        <span if.bind="$column.nosort == true">${ $column.heading }</span>
-                        <img if.bind="$parent.sorting[$column.field] === 'desc'" src="img/bullet_arrow_down.png" />
-                        <img if.bind="$parent.sorting[$column.field] === 'asc'" src="img/bullet_arrow_up.png" />
+                        <input class="form-control" value.bind="$column.filterValue" input.delegate="$parent.updateFilters()">
+                    </th>
+                </tr>
+                 <tr role="button">
+                    <th repeat.for="$column of columns">
+                        <a if.bind="$column.nosort == false &amp;&amp; $parent.sortable" click.trigger="$parent.sortChanged($column.field)">${ $column.heading }</a>
+                        <span if.bind="$column.nosort == true || !$parent.sortable">${ $column.heading }</span>
+                        <svg if.bind="$parent.sorting[$column.field] === 'desc'" height="8" width="10">
+                              <polygon points="0,0 8,0 4,8" style="fill:gainsboro;stroke:gray;stroke-width:1;"></polygon>
+                        </svg>
+                        <svg if.bind="$parent.sorting[$column.field] === 'asc'" height="8" width="10">
+                              <polygon points="0,8 8,8 4,0" style="fill:gainsboro;stroke:gray;stroke-width:1;"></polygon>
+                        </svg>
                     </th>
                 </tr>
                 <tr role="button" click.delegate="$parent.select($item)">
@@ -157,24 +181,24 @@
             </tbody>
         </table>
         <div if.bind="pageable" class="text-center">
-            <pager num-to-show.bind="10" pager.ref="pager" on-page-changed.call="pageChanged($event)"></pager>
+            <div show.bind="count > 0">
+                <pager num-to-show.bind="10" pager.ref="pager" on-page-changed.call="pageChanged($event)"></pager>
+            </div>
         </div>
         <!-- No rows message -->
-        <div if.bind="showNoRowsMessage && data.length == 0" class="alert alert-warning">${ noRowsMessage }</div>
+        <div if.bind="showNoRowsMessage &amp;&amp; count === 0" class="alert alert-warning">${ noRowsMessage }</div>
         <div class="overlay" if.bind="loading"></div>
         <div class="overlay-message" if.bind="loading">
             <i class="fa fa-spinner fa-spin"></i>
         </div>
     </div>
 </template>
-
-
-<template id="github:charlespockert/aurelia-bs-grid@0.0.1/pager/pager.html!view">
+<template id="github:charlespockert/aurelia-bs-grid@master/pager/pager.html!view">
     <ul class="pagination">
         <li>
             <a href="" click.delegate="prev()" aria-label="Previous">
                 <span aria-hidden="true">
-                        &laquo;
+                        «
                     </span>
             </a>
         </li>
@@ -186,7 +210,7 @@
         <li>
             <a href="" click.delegate="next()" aria-label="Next">
                 <span aria-hidden="true">
-                        &raquo;
+                        »
                     </span>
             </a>
         </li>

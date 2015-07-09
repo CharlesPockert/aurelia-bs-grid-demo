@@ -7,7 +7,7 @@
         <br />
         <!-- Grid definition -->
         <div style="height:600px;overflow:auto">
-            <grid read.call="getLocalData($event)" page-size="5" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false">
+            <grid read.call="getLocalData($event)" page-size="5" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false" no-rows-message="Nothing to see here!">
                 <grid-row>
                     <grid-col heading="ID" field="id" class="col-md-1"><strong>${ $item.id }</strong></grid-col>
                     <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
