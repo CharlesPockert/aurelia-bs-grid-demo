@@ -1,27 +1,12 @@
 <template>
     <section class="au-animate">
         <br />
-        <div class="form">
-            <div class="form-group">
-                <label class="control-label">Page Size</label>
-                <div>
-                    <select style="width:200px" class="form-control" value.bind="grid.pageSize">
-                        <option value="10">10</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                        <option value="500">500</option>
-                    </select>
-                </div>
-            </div>
-        </div>
         <!-- Grid definition -->
-        <div style="height:600px;overflow:auto">
-            <grid read.call="getLocalData($event)" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false">
-                <grid-row>
-                    <grid-col heading="ID" field="id" class="col-xs-1">${ $item.id }</grid-col>
-                    <grid-col heading="Name" field="name" class="col-xs-11">${ $item.name }</grid-col>
-                </grid-row>
-            </grid>
-        </div>
+        <grid grid-height.bind="400" read.call="getLocalData($event)" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false">
+            <grid-row>
+                <grid-col heading="ID" field="id" class="col-xs-1">${ $item.id }</grid-col>
+                <grid-col heading="Name" field="name" class="col-xs-11">${ $item.name }</grid-col>
+            </grid-row>
+        </grid>
     </section>
 </template>

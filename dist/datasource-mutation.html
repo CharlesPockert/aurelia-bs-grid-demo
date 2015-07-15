@@ -6,13 +6,11 @@
         <br />
         <br />
         <!-- Grid definition -->
-        <div style="height:600px;overflow:auto">
-            <grid read.call="getLocalData($event)" page-size="5" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false" no-rows-message="Nothing to see here!">
-                <grid-row>
-                    <grid-col heading="ID" field="id" class="col-md-1"><strong>${ $item.id }</strong></grid-col>
-                    <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
-                </grid-row>
-            </grid>
-        </div>
+        <grid read.call="getLocalData($event)" grid-height.bind="200" page-size="5" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false" no-rows-message="Nothing to see here!" show-jump-buttons.bind="false" show-first-last-buttons.bind="false" page-sizes.bind="[5, 10, 15]">
+            <grid-row>
+                <grid-col heading="ID" field="id" class="col-md-1"><strong>${ $item.id }</strong></grid-col>
+                <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
+            </grid-row>
+        </grid>
     </section>
 </template>

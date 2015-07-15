@@ -11,42 +11,38 @@
     <section class="au-animate">
         <br>
         <!-- Grid definition -->
-        <div style="height:600px;overflow:auto">
-            <grid read.call="getLocalData($event)" show-column-filters="true" selected-item.two-way="selected" selectable.bind="true" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false">
-                <grid-row>
-                    <grid-col heading="ID" field="id" class="col-md-1">${ $item.id }</grid-col>
-                    <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
-                </grid-row>
-            </grid>
-        </div>
+        <grid read.call="getLocalData($event)" show-column-filters="true" selected-item.two-way="selected" selectable.bind="true" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false" grid-height.bind="400">
+            <grid-row>
+                <grid-col heading="ID" field="id" class="col-md-1">${ $item.id }</grid-col>
+                <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
+            </grid-row>
+        </grid>
     </section>
 </template>
 <template id="column-templates.html!view">
     <section class="au-animate">
         <br>
         <!-- Grid definition -->
-        <div style="height:600px;overflow:auto">
-            <grid read.call="getLocalData($event)" page-size="5" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false">
-                <grid-row>
-                    <grid-col heading="ID" field="id" class="col-md-1">This is a <i>column template</i>: <strong>${ $item.id }</strong></grid-col>
-                    <grid-col heading="Name" field="name" class="col-md-2"><button class="btn btn-primary" click.delegate="$parent.$parent.itemClicked($item)">Click me I'm ... ${ $item.name }!</button></grid-col>
-                </grid-row>
-            </grid>
-        </div>
+        <grid read.call="getLocalData($event)" page-size="5" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false" grid-height.bind="400">
+            <grid-row>
+                <grid-col heading="ID" field="id" class="col-md-1">This is a <i>column template</i>: <strong>${ $item.id }</strong></grid-col>
+                <grid-col heading="Name" field="name" class="col-md-2">
+                    <button class="btn btn-primary" click.delegate="$parent.$parent.itemClicked($item)">Click me I'm ... ${ $item.name }!</button>
+                </grid-col>
+            </grid-row>
+        </grid>
     </section>
 </template>
 <template id="compose-demo.html!view">
     <section class="au-animate">
         <br>
         <!-- Grid definition -->
-        <div>
-            <grid read.call="getLocalData($event)" grid.ref="grid">
-                <grid-row>
-                    <grid-col heading="ID" field="id" class="col-xs-1">${ $item.id }</grid-col>
-                    <grid-col heading="Name" field="name" class="col-xs-11">${ $item.name }</grid-col>
-                </grid-row>
-            </grid>
-        </div>
+        <grid read.call="getLocalData($event)" grid.ref="grid">
+            <grid-row>
+                <grid-col heading="ID" field="id" class="col-xs-1">${ $item.id }</grid-col>
+                <grid-col heading="Name" field="name" class="col-xs-11">${ $item.name }</grid-col>
+            </grid-row>
+        </grid>
     </section>
 </template>
 <template id="datasource-mutation.html!view">
@@ -57,41 +53,24 @@
         <br>
         <br>
         <!-- Grid definition -->
-        <div style="height:600px;overflow:auto">
-            <grid read.call="getLocalData($event)" page-size="5" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false" no-rows-message="Nothing to see here!">
-                <grid-row>
-                    <grid-col heading="ID" field="id" class="col-md-1"><strong>${ $item.id }</strong></grid-col>
-                    <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
-                </grid-row>
-            </grid>
-        </div>
+        <grid read.call="getLocalData($event)" grid-height.bind="200" page-size="5" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false" no-rows-message="Nothing to see here!" show-jump-buttons.bind="false" show-first-last-buttons.bind="false" page-sizes.bind="[5, 10, 15]">
+            <grid-row>
+                <grid-col heading="ID" field="id" class="col-md-1"><strong>${ $item.id }</strong></grid-col>
+                <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
+            </grid-row>
+        </grid>
     </section>
 </template>
 <template id="local-data.html!view">
     <section class="au-animate">
         <br>
-        <div class="form">
-            <div class="form-group">
-                <label class="control-label">Page Size</label>
-                <div>
-                    <select style="width:200px" class="form-control" value.bind="grid.pageSize">
-                        <option value="10">10</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                        <option value="500">500</option>
-                    </select>
-                </div>
-            </div>
-        </div>
         <!-- Grid definition -->
-        <div style="height:600px;overflow:auto">
-            <grid read.call="getLocalData($event)" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false">
-                <grid-row>
-                    <grid-col heading="ID" field="id" class="col-xs-1">${ $item.id }</grid-col>
-                    <grid-col heading="Name" field="name" class="col-xs-11">${ $item.name }</grid-col>
-                </grid-row>
-            </grid>
-        </div>
+        <grid grid-height.bind="400" read.call="getLocalData($event)" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false">
+            <grid-row>
+                <grid-col heading="ID" field="id" class="col-xs-1">${ $item.id }</grid-col>
+                <grid-col heading="Name" field="name" class="col-xs-11">${ $item.name }</grid-col>
+            </grid-row>
+        </grid>
     </section>
 </template>
 <template id="nav-bar.html!view">
@@ -127,30 +106,15 @@
 <template id="remote-data.html!view">
     <section class="au-animate">
         <br>
-        <div class="form">
-            <div class="form-group">
-                <label class="control-label">Page Size</label>
-                <div>
-                    <select style="width:200px" class="form-control" value.bind="grid.pageSize">
-                        <option value="10">10</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                        <option value="500">500</option>
-                    </select>
-                </div>
-            </div>
-        </div>
         <!-- Grid definition -->
-        <div style="height:600px;overflow:auto">
-            <grid read.call="getComments($event)" grid.ref="grid" server-paging.bind="true" server-sorting.bind="false" selectable="true" show-column-filters.bind="true">
-                <grid-row>
-                    <grid-col heading="ID" field="id" class="col-md-1">${ $item.id }</grid-col>
-                    <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
-                    <grid-col heading="Email" show-filter="false" field="email" class="col-md-1"><a href="mailto:${ $item.email }">${ $item.email }</a></grid-col>
-                    <grid-col heading="Body" field="body" class="col-md-8">${ $item.body }</grid-col>
-                </grid-row>
-            </grid>
-        </div>
+        <grid grid-height.bind="400" read.call="getComments($event)" grid.ref="grid" server-paging.bind="true" server-sorting.bind="false" selectable="true" show-column-filters.bind="true">
+            <grid-row>
+                <grid-col heading="ID" field="id" class="col-md-1">${ $item.id }</grid-col>
+                <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
+                <grid-col heading="Email" show-filter="false" field="email" class="col-md-1"><a href="mailto:${ $item.email }">${ $item.email }</a></grid-col>
+                <grid-col heading="Body" field="body" class="col-md-8">${ $item.body }</grid-col>
+            </grid-row>
+        </grid>
     </section>
 </template>
 <template id="row-selection.html!view">
@@ -158,51 +122,67 @@
         <br>
         <p>Currently selected: ${ selected.id } - ${ selected.name }</p>
         <!-- Grid definition -->
-        <div style="height:600px;overflow:auto">
-            <grid read.call="getLocalData($event)" selected-item.two-way="selected" selectable.bind="true" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false">
-                <grid-row>
-                    <grid-col heading="ID" field="id" class="col-md-1">${ $item.id }</grid-col>
-                    <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
-                </grid-row>
-            </grid>
-        </div>
+        <grid grid-height.bind="400" read.call="getLocalData($event)" selected-item.two-way="selected" selectable.bind="true" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false">
+            <grid-row>
+                <grid-col heading="ID" field="id" class="col-md-1">${ $item.id }</grid-col>
+                <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
+            </grid-row>
+        </grid>
     </section>
 </template>
 <template id="github:charlespockert/aurelia-bs-grid@master/grid/grid.html!view">
     <require from="../pager/pager"></require>
-    <div style="position:relative;">
-        <table class="table table-hover table-striped table-responsive selectable" show.bind="!showNoRowsMessage || (showNoRowsMessage &amp;&amp; count > 0)">
-            <tbody ref="tbody">
-                <tr if.bind="showColumnFilters">
-                    <th repeat.for="$column of columns">
-                        <input if.bind="$column.showFilter" class="form-control" value.bind="$column.filterValue" input.delegate="$parent.updateFilters()">
-                    </th>
-                </tr>
-                <tr role="button">
-                    <th repeat.for="$column of columns">
-                        <a if.bind="$column.nosort == false &amp;&amp; $parent.sortable" click.trigger="$parent.sortChanged($column.field)">${ $column.heading }</a>
-                        <span if.bind="$column.nosort == true || !$parent.sortable">${ $column.heading }</span>
-                        <svg if.bind="$parent.sorting[$column.field] === 'desc'" height="8" width="10">
-                            <polygon points="0,0 8,0 4,8" style="fill:gainsboro;stroke:gray;stroke-width:1;"></polygon>
-                        </svg>
-                        <svg if.bind="$parent.sorting[$column.field] === 'asc'" height="8" width="10">
-                            <polygon points="0,8 8,8 4,0" style="fill:gainsboro;stroke:gray;stroke-width:1;"></polygon>
-                        </svg>
-                    </th>
-                </tr>
-                <tr role="button" click.delegate="$parent.select($item)">
-                </tr>
-            </tbody>
-        </table>
-        <div if.bind="pageable" class="text-center">
-            <div show.bind="count > 0">
-                <pager num-to-show.bind="pagerSize" pager.ref="pager" on-page-changed.call="pageChanged($event)"></pager>
+    <div>
+        <div class="grid-container" show.bind="!showNoRowsMessage || (showNoRowsMessage &amp;&amp; count > 0)">
+            <!-- Header table -->
+            <table class="table table-hover table-striped table-responsive grid-header-table">
+                <thead>
+                    <tr if.bind="showColumnFilters">
+                        <th repeat.for="$column of columns" class="${ $column.class !== '' ? $column.class : '' }">
+                            <input if.bind="$column.showFilter" class="form-control" value.bind="$column.filterValue" input.delegate="$parent.updateFilters()">
+                        </th>
+                    </tr>
+                    <tr role="button">
+                        <th repeat.for="$column of columns" class="${ $column.class !== '' ? $column.class : '' }">
+                            <a if.bind="$column.nosort == false &amp;&amp; $parent.sortable" click.trigger="$parent.sortChanged($column.field)">${ $column.heading }</a>
+                            <span if.bind="$column.nosort == true || !$parent.sortable">${ $column.heading }</span>
+                            <svg if.bind="$parent.sorting[$column.field] === 'desc'" height="8" width="10">
+                                <polygon class="grid-sort-arrow" points="0,0 8,0 4,8"></polygon>
+                            </svg>
+                            <svg if.bind="$parent.sorting[$column.field] === 'asc'" height="8" width="10">
+                                <polygon class="grid-sort-arrow" points="0,8 8,8 4,0"></polygon>
+                            </svg>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+            <!-- Content table -->
+            <div class="grid-content-container">
+                <table class="table table-hover table-striped table-responsive selectable" show.bind="!showNoRowsMessage || (showNoRowsMessage &amp;&amp; count > 0)">
+                    <tbody>
+                        <tr role="button" click.delegate="$parent.select($item)">
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Footer div -->
+            <div class="grid-footer-container">
+                <pager style="float: left" num-to-show.bind="pagerSize" pager.ref="pager" on-page-changed.call="pageChanged($event)" show-first-last-buttons.bind="showFirstLastButtons" show-jump-buttons.bind="showJumpButtons"></pager>
+                <div style="float: left;margin-left: 20px" class="form-inline">
+                    <div class="form-control-group">
+                        <select class="form-control" value.bind="pageSize">
+                            <option value.bind="size" repeat.for="size of pageSizes">${ size === '*' ? 'All' : size }</option>
+                        </select>
+                        <span> items per page</span>
+                    </div>
+                </div>
+                <span class="grid-summary">Showing ${ firstVisibleItem } - ${ lastVisibleItem } of ${ count } items</span>
             </div>
         </div>
         <!-- No rows message -->
         <div if.bind="showNoRowsMessage &amp;&amp; count === 0" class="alert alert-warning">${ noRowsMessage }</div>
-        <div class="overlay" if.bind="loading" style="position: absolute; left: 0; top: 0; min-width:100%; min-height: 100%; height:100%; z-index: 10; background: rgba(0,0,0,0.3);"></div>
-        <div if.bind="loading" class="progress" style="position: absolute; left: 50%; top: 50%; z-index: 11; transform: translate(-50%, -50%); width:10%">
+        <div class="grid-overlay" if.bind="loading"></div>
+        <div if.bind="loading" class="progress grid-progress-indicator">
             <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%">
                 <span>${ loadingMessage }</span>
             </div>
@@ -211,7 +191,21 @@
 </template>
 <template id="github:charlespockert/aurelia-bs-grid@master/pager/pager.html!view">
     <ul class="pagination">
-        <li>
+        <li if.bind="showFirstLastButtons" class="${ prevDisabled ? 'disabled' : '' }">
+            <a href="" click.delegate="first()" aria-label="First">
+                <span aria-hidden="true">
+                    First
+                    </span>
+            </a>
+        </li>
+        <li if.bind="showJumpButtons" class="${ prevDisabled ? 'disabled' : '' }">
+            <a href="" click.delegate="prevJump()" aria-label="Next">
+                <span aria-hidden="true">
+                        …
+                    </span>
+            </a>
+        </li>
+        <li class="${ prevDisabled ? 'disabled' : '' }">
             <a href="" click.delegate="prev()" aria-label="Previous">
                 <span aria-hidden="true">
                         «
@@ -223,10 +217,24 @@
             <span style="display:none">${curPage}</span>
             <a href="" click.delegate="$parent.changePage(curPage)">${curPage}</a>
         </li>
-        <li>
+        <li class="${ nextDisabled ? 'disabled' : '' }">
             <a href="" click.delegate="next()" aria-label="Next">
                 <span aria-hidden="true">
                         »
+                    </span>
+            </a>
+        </li>
+        <li if.bind="showJumpButtons" class="${ nextDisabled ? 'disabled' : '' }">
+            <a href="" click.delegate="nextJump()" aria-label="Next">
+                <span aria-hidden="true">
+                        …
+                    </span>
+            </a>
+        </li>
+        <li if.bind="showFirstLastButtons" class="${ nextDisabled ? 'disabled' : '' }">
+            <a href="" click.delegate="last()" aria-label="Last">
+                <span aria-hidden="true">
+                    Last
                     </span>
             </a>
         </li>
