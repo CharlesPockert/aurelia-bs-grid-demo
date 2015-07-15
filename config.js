@@ -165,8 +165,7 @@ System.config({
       "github:charlespockert/aurelia-bs-grid@master/pager/pager",
       "github:charlespockert/aurelia-bs-grid@master/index",
       "github:charlespockert/aurelia-bs-grid@master/grid/grid-column",
-      "github:systemjs/plugin-css@0.1.13/css",
-      "github:systemjs/plugin-css@0.1.13",
+      "github:charlespockert/aurelia-bs-grid@master/grid/aurelia-bs-grid.css!github:systemjs/plugin-css@0.1.13",
       "github:charlespockert/aurelia-bs-grid@master/grid/grid",
       "github:charlespockert/aurelia-bs-grid@master",
       "github:aurelia/logging-console@0.6.0/index",
@@ -214,14 +213,14 @@ System.config({
       "column-templates",
       "column-filters",
       "github:components/jquery@2.1.4/jquery",
+      "github:twbs/bootstrap@3.3.5/css/bootstrap.css!github:systemjs/plugin-css@0.1.13",
       "github:components/jquery@2.1.4",
       "github:twbs/bootstrap@3.3.5/js/bootstrap",
       "github:twbs/bootstrap@3.3.5",
       "app",
       "animation-main"
     ]
-  },
-  "buildCSS": false
+  }
 });
 
 System.config({
@@ -251,6 +250,7 @@ System.config({
     "babel-runtime": "npm:babel-runtime@5.5.6",
     "bootstrap": "github:twbs/bootstrap@3.3.5",
     "charlespockert/aurelia-bs-grid": "github:charlespockert/aurelia-bs-grid@master",
+    "clean-css": "npm:clean-css@3.3.6",
     "core-js": "npm:core-js@0.9.18",
     "css": "github:systemjs/plugin-css@0.1.13",
     "font-awesome": "npm:font-awesome@4.3.0",
@@ -448,9 +448,30 @@ System.config({
       "url": "github:jspm/nodelibs-url@0.1.0",
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
+    "npm:clean-css@3.3.6": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "commander": "npm:commander@2.8.1",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "http": "github:jspm/nodelibs-http@1.7.1",
+      "https": "github:jspm/nodelibs-https@0.1.0",
+      "os": "github:jspm/nodelibs-os@0.1.0",
+      "path": "github:jspm/nodelibs-path@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.1",
+      "source-map": "npm:source-map@0.4.4",
+      "url": "github:jspm/nodelibs-url@0.1.0",
+      "util": "github:jspm/nodelibs-util@0.1.0"
+    },
     "npm:commander@2.6.0": {
       "child_process": "github:jspm/nodelibs-child_process@0.1.0",
       "events": "github:jspm/nodelibs-events@0.1.1",
+      "path": "github:jspm/nodelibs-path@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:commander@2.8.1": {
+      "child_process": "github:jspm/nodelibs-child_process@0.1.0",
+      "events": "github:jspm/nodelibs-events@0.1.1",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "graceful-readlink": "npm:graceful-readlink@1.0.1",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
@@ -464,6 +485,9 @@ System.config({
     },
     "npm:font-awesome@4.3.0": {
       "css": "github:systemjs/plugin-css@0.1.13"
+    },
+    "npm:graceful-readlink@1.0.1": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2"
     },
     "npm:https-browserify@0.0.0": {
       "http": "github:jspm/nodelibs-http@1.7.1"
@@ -496,6 +520,10 @@ System.config({
       "amdefine": "npm:amdefine@1.0.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "path": "github:jspm/nodelibs-path@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:source-map@0.4.4": {
+      "amdefine": "npm:amdefine@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:stream-browserify@1.0.0": {
