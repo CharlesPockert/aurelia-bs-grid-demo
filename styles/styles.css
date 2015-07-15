@@ -20,6 +20,11 @@ body {
 
 }
 
+.fa-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
+  animation: fa-spin 2s infinite linear;
+}
+
 .splash .fa-spinner {
     text-align: center;
     display: inline-block;

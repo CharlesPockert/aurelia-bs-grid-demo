@@ -11,7 +11,7 @@ export class ColumnTemplates {
     getLocalData(gridOptions) {
         // Return a promise that resolves to the data
         var data = [];
-        var names = ["charles", "john", "oliver", "fred", "apple", "peach", "banana", "pear", "kiwi", "dog", "cat", "mouse", "turtle", "high", "low", "jacks", "aces", "kings", "queens"];
+        var names = ["charles", "john", "oliver", "fred", "dean", "chris", "pete", "steve", "lee", "rob", "alex", "rose", "mike", "dan", "james", "rebecca", "heather", "kate", "liam"];
 
         for (var i = 0; i < 1000; i++) {
 

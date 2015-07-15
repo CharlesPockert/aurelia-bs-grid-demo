@@ -9,13 +9,13 @@ aurelia.command('bundle', {
                 'aurelia-http-client',
                 'aurelia-router',
                 'aurelia-animator-css',
-                'github:aurelia/templating@0.13.1',
+                'github:aurelia/templating@0.13.3',
                 'github:aurelia/history@0.6.0',
-                'github:aurelia/history-browser@0.6.0',
+                'github:aurelia/history-browser@0.6.1',
                 'github:aurelia/templating-router@0.14.0',
                 'github:aurelia/templating-resources@0.13.0',
                 'github:aurelia/templating-binding@0.13.0',
-                'github:aurelia/binding@0.8.0',
+                'github:aurelia/binding@0.8.2',
                 'github:aurelia/loader-default@0.9.0',
                 'github:aurelia/logging-console@0.6.0',
                 'github:charlespockert/**/*',
@@ -31,7 +31,7 @@ aurelia.command('bundle', {
     },
     template: {
         "dist/app-bundle": {
-            pattern: ['dist/*.html', 'jspm_packages/github/charlespockert/aurelia-bs-grid@0.0.1/**/*.html'],
+            pattern: ['dist/*.html', 'jspm_packages/github/charlespockert/aurelia-bs-grid@master/**/*.html'],
             options: {
                 inject: true
             }

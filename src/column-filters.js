@@ -9,10 +9,9 @@ export class RowSelection {
     }
 
     getLocalData(gridOptions) {
-        
         // Return a promise that resolves to the data
         var data = [];
-        var names = ["apple", "peach", "pear", "banana", "kiwi", "apple", "orange", "melon", "lemon", "persimmon", "physalis", "strawberry", "cherry", "lime", "watermelon", "cantaloupe (the lowest of the melons)"];
+        var names = ["charles", "john", "oliver", "fred", "apple", "peach", "banana", "pear", "kiwi", "dog", "cat", "mouse", "turtle", "high", "low", "jacks", "aces", "kings", "queens"];
 
         for (var i = 0; i < 1000; i++) {
 
