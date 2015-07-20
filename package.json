@@ -24,6 +24,7 @@
     "browser-sync": "^1.8.1",
     "conventional-changelog": "0.0.11",
     "del": "^1.1.0",
+    "filesize": "^3.1.2",
     "gulp": "^3.8.10",
     "gulp-babel": "^5.1.0",
     "gulp-bump": "^0.1.11",
@@ -34,8 +35,10 @@
     "gulp-protractor": "^0.0.12",
     "gulp-sourcemaps": "^1.3.0",
     "gulp-yuidoc": "^0.1.2",
+    "gzip-size": "^2.0.3",
     "jasmine-core": "^2.1.3",
     "jshint-stylish": "^1.0.0",
+    "jspm": "^0.15.7",
     "karma": "^0.12.28",
     "karma-babel-preprocessor": "^5.2.1",
     "karma-chrome-launcher": "^0.1.7",
@@ -50,7 +53,6 @@
   },
   "jspm": {
     "dependencies": {
-      "Leaflet/Leaflet": "github:Leaflet/Leaflet@0.7.3",
       "aurelia-animator-css": "github:aurelia/animator-css@^0.13.0",
       "aurelia-binding": "github:aurelia/binding@^0.8.1",
       "aurelia-bootstrapper": "github:aurelia/bootstrapper@^0.14.0",
@@ -78,7 +80,6 @@
       "css": "github:systemjs/plugin-css@^0.1.13",
       "font-awesome": "npm:font-awesome@^4.3.0",
       "gooy/aurelia-compiler": "github:gooy/aurelia-compiler@^0.0.5",
-      "leaflet/leaflet": "github:leaflet/leaflet@^0.7.3",
       "systemjs/plugin-css": "github:systemjs/plugin-css@0.1.11"
     },
     "devDependencies": {
