@@ -53,12 +53,19 @@
         <br>
         <br>
         <!-- Grid definition -->
-        <grid read.call="getLocalData($event)" grid-height.bind="200" page-size="5" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false" no-rows-message="Nothing to see here!" show-jump-buttons.bind="false" show-first-last-buttons.bind="false" page-sizes.bind="[5, 10, 15]">
+        <grid read.call="getLocalData($event)" grid-height.bind="200" page-size="5" grid.ref="grid" server-paging.bind="false" server-sorting.bind="false" no-rows-message="Nothing to see here!" show-jump-buttons.bind="false" show-first-last-buttons.bind="false" page-sizes.bind="[5, 10, 15]" selectable.bind="true">
             <grid-row>
                 <grid-col heading="ID" field="id" class="col-md-1"><strong>${ $item.id }</strong></grid-col>
                 <grid-col heading="Name" field="name" class="col-md-2">${ $item.name }</grid-col>
             </grid-row>
         </grid>
+
+        <form class="form">
+            <div class="form-group">
+                <label>Name</label>
+                <input value.bind="grid.selectedItem.name" class="form-control">
+            </div>
+        </form>
     </section>
 </template>
 <template id="local-data.html!view">
@@ -167,8 +174,8 @@
             </div>
             <!-- Footer div -->
             <div class="grid-footer-container">
-                <pager style="float: left" num-to-show.bind="pagerSize" pager.ref="pager" on-page-changed.call="pageChanged($event)" show-first-last-buttons.bind="showFirstLastButtons" show-jump-buttons.bind="showJumpButtons"></pager>
-                <div style="float: left;margin-left: 20px" class="form-inline">
+                <pager num-to-show.bind="pagerSize" pager.ref="pager" on-page-changed.call="pageChanged($event)" show-first-last-buttons.bind="showFirstLastButtons" show-jump-buttons.bind="showJumpButtons"></pager>
+                <div class="form-inline">
                     <div class="form-control-group">
                         <select class="form-control" value.bind="pageSize">
                             <option value.bind="size" repeat.for="size of pageSizes">${ size === '*' ? 'All' : size }</option>
@@ -183,7 +190,7 @@
         <div if.bind="showNoRowsMessage &amp;&amp; count === 0" class="alert alert-warning">${ noRowsMessage }</div>
         <div class="grid-overlay" if.bind="loading"></div>
         <div if.bind="loading" class="progress grid-progress-indicator">
-            <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%">
+            <div class="progress-bar progress-bar-striped active" role="progressbar">
                 <span>${ loadingMessage }</span>
             </div>
         </div>
