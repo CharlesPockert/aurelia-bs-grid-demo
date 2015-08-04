@@ -26,7 +26,7 @@ System.register(['aurelia-framework'], function (_export) {
         _createDecoratedClass(NavBar, [{
           key: 'router',
           decorators: [bindable],
-          initializer: function () {
+          initializer: function initializer() {
             return null;
           },
           enumerable: true

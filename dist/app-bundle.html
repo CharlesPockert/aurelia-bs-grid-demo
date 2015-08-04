@@ -140,25 +140,24 @@
 <template id="github:charlespockert/aurelia-bs-grid@master/grid/grid.html!view">
     <require from="../pager/pager"></require>
     <div>
-        <div class="grid-container" show.bind="!showNoRowsMessage || (showNoRowsMessage &amp;&amp; count > 0)">
+        <div class="grid-container">
             <!-- Header table -->
             <table class="table table-hover table-striped table-responsive grid-header-table">
                 <thead>
-                    <tr if.bind="showColumnFilters">
-                        <th repeat.for="$column of columns" class="${ $column.class !== '' ? $column.class : '' }">
-                            <input if.bind="$column.showFilter" class="form-control" value.bind="$column.filterValue" input.delegate="$parent.updateFilters()">
-                        </th>
-                    </tr>
-                    <tr role="button">
+                    <tr role="button" if.bind="showColumnHeaders">
                         <th repeat.for="$column of columns" class="${ $column.class !== '' ? $column.class : '' }">
                             <a if.bind="$column.nosort == false &amp;&amp; $parent.sortable" click.trigger="$parent.sortChanged($column.field)">${ $column.heading }</a>
                             <span if.bind="$column.nosort == true || !$parent.sortable">${ $column.heading }</span>
-                            <svg if.bind="$parent.sorting[$column.field] === 'desc'" height="8" width="10">
-                                <polygon class="grid-sort-arrow" points="0,0 8,0 4,8"></polygon>
-                            </svg>
-                            <svg if.bind="$parent.sorting[$column.field] === 'asc'" height="8" width="10">
-                                <polygon class="grid-sort-arrow" points="0,8 8,8 4,0"></polygon>
-                            </svg>
+                            <span if.bind="$parent.sorting[$column.field] === 'desc'" class="glyphicon glyphicon-triangle-top text-primary"></span>
+                            <span if.bind="$parent.sorting[$column.field] === 'asc'" class="glyphicon glyphicon-triangle-bottom text-primary"></span>
+                        </th>
+                    </tr>
+                    <tr if.bind="showColumnFilters" class="grid-column-filters">
+                        <th repeat.for="$column of columns" class="${ $column.class !== '' ? $column.class : '' }">
+                            <div if.bind="$column.showFilter">
+                                <input class="form-control" value.bind="$column.filterValue" placeholder="filter..." input.delegate="$parent.updateFilters()">
+                                <span class="glyphicon glyphicon-search text-muted"></span>
+                            </div>
                         </th>
                     </tr>
                 </thead>
@@ -171,11 +170,18 @@
                         </tr>
                     </tbody>
                 </table>
+                <div show.bind="showNoRowsMessage &amp;&amp; count === 0" class="alert alert-warning">${ noRowsMessage }</div>
+            </div>
+            <div class="grid-overlay" if.bind="loading"></div>
+            <div if.bind="loading" class="progress grid-progress-indicator">
+                <div class="progress-bar progress-bar-striped active" role="progressbar">
+                    <span>${ loadingMessage }</span>
+                </div>
             </div>
             <!-- Footer div -->
-            <div class="grid-footer-container">
+            <div class="grid-footer-container" if.bind="pageable">
                 <pager num-to-show.bind="pagerSize" pager.ref="pager" on-page-changed.call="pageChanged($event)" show-first-last-buttons.bind="showFirstLastButtons" show-jump-buttons.bind="showJumpButtons"></pager>
-                <div class="form-inline">
+                <div class="form-inline" if.bind="showPageSizeBox">
                     <div class="form-control-group">
                         <select class="form-control" value.bind="pageSize">
                             <option value.bind="size" repeat.for="size of pageSizes">${ size === '*' ? 'All' : size }</option>
@@ -183,17 +189,10 @@
                         <span> items per page</span>
                     </div>
                 </div>
-                <span class="grid-summary">Showing ${ firstVisibleItem } - ${ lastVisibleItem } of ${ count } items</span>
+                <span class="grid-summary" if.bind="showPagingSummary">Showing ${ firstVisibleItem } - ${ lastVisibleItem } of ${ count } items</span>
             </div>
         </div>
         <!-- No rows message -->
-        <div if.bind="showNoRowsMessage &amp;&amp; count === 0" class="alert alert-warning">${ noRowsMessage }</div>
-        <div class="grid-overlay" if.bind="loading"></div>
-        <div if.bind="loading" class="progress grid-progress-indicator">
-            <div class="progress-bar progress-bar-striped active" role="progressbar">
-                <span>${ loadingMessage }</span>
-            </div>
-        </div>
     </div>
 </template>
 <template id="github:charlespockert/aurelia-bs-grid@master/pager/pager.html!view">
