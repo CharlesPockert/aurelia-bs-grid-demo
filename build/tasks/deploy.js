@@ -11,7 +11,7 @@ var ghPages = require('gulp-gh-pages');
 
 gulp.task('deploy', function() {
   return runSequence(
-    ['copy-dist', 'copy-img', 'copy-styles', 'copy-loader', 'copy-root', 'copy-config'], 'deploy-gh-pages');
+    ['copy-dist', 'copy-img', 'copy-styles', 'copy-loader', 'copy-root', 'copy-config', 'copy-fonts'], 'deploy-gh-pages');
 });
 
 
@@ -26,6 +26,11 @@ gulp.task('copy-img', function() {
 });
 
 gulp.task('copy-styles', function() {
+  return gulp.src('./jspm_packages/github/twbs/**/*.woff')
+    .pipe(gulp.dest('./gh-pages/jspm_packages/github/twbs'));
+});
+
+gulp.task('copy-fonts', function() {
   return gulp.src('./styles/**/*')
     .pipe(gulp.dest('./gh-pages/styles'));
 });
